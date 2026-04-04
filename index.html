@@ -803,6 +803,15 @@ const CHAR_MAP = {
     'Yakumo Oomori':        { n: 'Yakumo Oomori',         a: 'Tokyo Ghoul' },
     'Suzuya Juuzou':        { n: 'Juuzou Suzuya',         a: 'Tokyo Ghoul' },
     'Tsukiyama Shuu':       { n: 'Shuu Tsukiyama',        a: 'Tokyo Ghoul' },
+    // Nouveaux personnages
+    'Sesshomaru':           { n: 'Sesshoumaru',           a: 'Inuyasha' },
+    'Mahito':               { n: 'Mahito',                a: 'Jujutsu Kaisen' },
+    'Makima':               { n: 'Makima',                a: 'Chainsaw Man' },
+    'Giorno Giovanna':      { n: 'Giorno Giovanna',       a: "JoJo no Kimyou na Bouken Part 5" },
+    'Rin Okumura':          { n: 'Rin Okumura',           a: 'Ao no Exorcist' },
+    'Kisuke Urahara':       { n: 'Kisuke Urahara',        a: 'Bleach' },
+    'Makoto Shishio':       { n: 'Makoto Shishio',        a: 'Rurouni Kenshin' },
+    'Choso':                { n: 'Choso',                 a: 'Jujutsu Kaisen' },
 };
 
 // For these characters, fetch by MAL ID directly (avoids wrong results from name search)
@@ -926,6 +935,15 @@ const IMGUR_URLS = {
     'Yuji Itadori': 'https://static.wikia.nocookie.net/jujutsu-kaisen/images/d/d3/Yuji_Itadori_anime.png',
     'Zeref': 'https://static.wikia.nocookie.net/fairytail/images/0/07/Zeref_Dragneel.png',
     'Zuko': 'https://i.imgur.com/hmVCS84.jpeg',
+    // Nouveaux personnages
+    'Sesshomaru': 'https://static.wikia.nocookie.net/inuyasha/images/5/5b/Sesshoumaru_anime.png',
+    'Mahito': 'https://static.wikia.nocookie.net/jujutsu-kaisen/images/7/7d/Mahito_Anime.png',
+    'Makima': 'https://static.wikia.nocookie.net/chainsaw-man/images/8/8c/Makima_Anime.png',
+    'Giorno Giovanna': 'https://static.wikia.nocookie.net/jojo/images/2/2e/Giorno_Giovanna_Anime.png',
+    'Rin Okumura': 'https://static.wikia.nocookie.net/blue-exorcist/images/9/9f/Rin_Okumura_Anime.png',
+    'Kisuke Urahara': 'https://static.wikia.nocookie.net/bleach/images/3/38/Kisuke_Urahara.png',
+    'Makoto Shishio': 'https://static.wikia.nocookie.net/rurouni-kenshin/images/6/69/Makoto_Shishio_Anime.png',
+    'Choso': 'https://static.wikia.nocookie.net/jujutsu-kaisen/images/5/5f/Choso_Anime.png',
 };
 
 // Vérifie qu'une URL d'image charge vraiment (évite les 404 silencieux)
@@ -1069,12 +1087,12 @@ const PAIRS = [
     { citizen: { name: 'Aki Hayakawa', img: '' }, undercover: { name: 'Itachi Uchiha', img: '' }, tag: 'Famille massacrée, mort certaine planifiée et acceptée', difficulty: 'popular' },
     { citizen: { name: 'Vash the Stampede', img: '' }, undercover: { name: 'Natsu Dragneel', img: '' }, tag: 'Frère jumeau ennemi légendaire', difficulty: 'popular' },
     { citizen: { name: 'Meliodas', img: '' }, undercover: { name: 'Yuji Itadori', img: '' }, tag: 'Démon intérieur, condamnés dès le départ', difficulty: 'popular' },
-    { citizen: { name: 'Meliodas', img: '' }, undercover: { name: 'Naruto Uzumaki', img: '' }, tag: 'Démon intérieur, portent un pouvoir maudit qu\'ils apprennent à contrôler', difficulty: 'popular' },
+
     { citizen: { name: 'Alucard', img: '' }, undercover: { name: 'DIO', img: '' }, tag: 'Vampires immortels d\'une puissance absolue', difficulty: 'popular' },
     { citizen: { name: 'Trunks', img: '' }, undercover: { name: 'Okabe Rintarou', img: '' }, tag: 'Voyage dans le temps pour changer un futur catastrophique', difficulty: 'popular' },
     { citizen: { name: 'Trunks', img: '' }, undercover: { name: 'Subaru Natsuki', img: '' }, tag: 'Voyage dans le temps / revivre pour changer un futur catastrophique', difficulty: 'popular' },
     { citizen: { name: 'Usopp', img: '' }, undercover: { name: 'Gon Freecss', img: '' }, tag: 'Père absent légendaire, grandissent pour l\'égaler', difficulty: 'popular' },
-    { citizen: { name: 'Usopp', img: '' }, undercover: { name: 'Son Goku', img: '' }, tag: 'Père absent légendaire', difficulty: 'popular' },
+
     { citizen: { name: 'Ging Freecss', img: '' }, undercover: { name: 'Son Goku', img: '' }, tag: 'Pères absents légendaires qui abandonnent leur enfant pour leur propre aventure', difficulty: 'popular' },
     { citizen: { name: 'Inuyasha', img: '' }, undercover: { name: 'Ken Kaneki', img: '' }, tag: 'Hybrides rejetés par les deux mondes, luttent pour garder leur humanité', difficulty: 'popular' },
     { citizen: { name: 'Shinichi Izumi', img: '' }, undercover: { name: 'Ken Kaneki', img: '' }, tag: 'Fusionnés avec un être non-humain, humanité progressivement perdue', difficulty: 'popular' },
@@ -1090,6 +1108,27 @@ const PAIRS = [
     { citizen: { name: 'Takasugi Shinsuke', img: '' }, undercover: { name: 'Roy Mustang', img: '' }, tag: 'Maître exécuté sous leurs yeux, vengeance contre l\'État', difficulty: 'intermediate' },
     { citizen: { name: 'Sakata Gintoki', img: '' }, undercover: { name: 'Kenshin Himura', img: '' }, tag: 'Esclaves/soldats enfants, légendes de guerre reconverties', difficulty: 'popular' },
     { citizen: { name: 'Sakata Gintoki', img: '' }, undercover: { name: 'Guts', img: '' }, tag: 'Esclaves/soldats enfants, maîtres exécutés, portent le poids du passé', difficulty: 'popular' },
+
+    // ══ NOUVELLES PAIRES ══
+
+    // Popular
+    { citizen: { name: 'Sesshomaru', img: '' }, undercover: { name: 'Byakuya Kuchiki', img: '' }, tag: 'Aristocrate froid aux longs cheveux, méprise les faibles, rédemption par attachement à un enfant', difficulty: 'popular' },
+    { citizen: { name: 'Giorno Giovanna', img: '' }, undercover: { name: 'Lelouch vi Britannia', img: '' }, tag: 'Fils illégitime d\'un tyran, renverse son père pour libérer son peuple, génie stratège', difficulty: 'popular' },
+    { citizen: { name: 'Diavolo', img: '' }, undercover: { name: 'Johan Liebert', img: '' }, tag: 'Identité absolument secrète, terreur totale, ne laissent aucune trace', difficulty: 'popular' },
+    { citizen: { name: 'Makima', img: '' }, undercover: { name: 'Sosuke Aizen', img: '' }, tag: 'Manipulation absolue via une façade bienveillante, révélation tardive du monstre', difficulty: 'popular' },
+    { citizen: { name: 'Eren Yeager', img: '' }, undercover: { name: 'Lelouch vi Britannia', img: '' }, tag: 'Sacrifice de soi comme plan final, deviennent le monstre pour libérer leur peuple', difficulty: 'popular' },
+    { citizen: { name: 'L Lawliet', img: '' }, undercover: { name: 'Conan Edogawa', img: '' }, tag: 'Génie détective à l\'apparence étrange, duel intellectuel contre un criminel masqué dans l\'ombre', difficulty: 'popular' },
+    { citizen: { name: 'Killua Zoldyck', img: '' }, undercover: { name: 'Dabi', img: '' }, tag: 'Famille qui les conditionne comme assassins depuis l\'enfance, brisés par leur propre sang', difficulty: 'popular' },
+    { citizen: { name: 'Rin Okumura', img: '' }, undercover: { name: 'Inuyasha', img: '' }, tag: 'Fils d\'un démon légendaire, mi-humain mi-démon, rejetés par les deux mondes', difficulty: 'popular' },
+    { citizen: { name: 'Meruem', img: '' }, undercover: { name: 'Father', img: '' }, tag: 'Êtres "parfaits" nés pour dominer l\'humanité, transformés au contact d\'un humain pur', difficulty: 'popular' },
+    { citizen: { name: 'Hisoka Morow', img: '' }, undercover: { name: 'Mahito', img: '' }, tag: 'Psychopathes joueurs qui se délectent de la souffrance, métamorphose physique, jeu avec les victimes', difficulty: 'popular' },
+    { citizen: { name: 'Choso', img: '' }, undercover: { name: 'Portgas D. Ace', img: '' }, tag: 'Frères aînés prêts à mourir pour protéger leurs cadets, sacrifice accepté pour la famille choisie', difficulty: 'popular' },
+
+    // Intermediate
+    { citizen: { name: 'Shinji Ikari', img: '' }, undercover: { name: 'Subaru Natsuki', img: '' }, tag: 'Propulsés malgré eux dans un rôle de sauveur, s\'effondrent psychologiquement sous le poids', difficulty: 'intermediate' },
+    { citizen: { name: 'Roswaal', img: '' }, undercover: { name: 'Obito Uchiha', img: '' }, tag: 'Manipulent tout depuis l\'ombre pour retrouver l\'être aimé perdu, mastermind mu par le deuil', difficulty: 'intermediate' },
+    { citizen: { name: 'Kisuke Urahara', img: '' }, undercover: { name: 'Lelouch vi Britannia', img: '' }, tag: 'Génies masqués derrière une façade désinvolte, orchestrent tout dans l\'ombre, sacrifice planifié', difficulty: 'intermediate' },
+    { citizen: { name: 'Makoto Shishio', img: '' }, undercover: { name: 'Toguro', img: '' }, tag: 'Anciens soldats d\'élite trahis et laissés pour morts par leur propre camp, ressuscités comme monstres', difficulty: 'intermediate' },
 
 ];
 
