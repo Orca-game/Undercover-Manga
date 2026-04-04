@@ -1426,6 +1426,7 @@ async function beginNewRound() {
     gameState.votes = {};
     gameState.currentHintPhase = 1;
     gameState.currentTurnIdx = Math.floor(Math.random() * gameState.players.length);
+    gameState.roundStartIdx = gameState.currentTurnIdx;
     gameState.roundId = Date.now();
     gameState.currentPairImgs = { citizen: '', undercover: '' };
 
@@ -1469,7 +1470,7 @@ async function fetchImagesBackground(pairIdx, roundId) {
         await new Promise(r => setTimeout(r, 500));
         const ui = await fetchAniListImage(pair.undercover.name);
         // Only save if we're still in the same round
-        if (gameState.roundId === roundId && ci || ui) {
+        if (gameState.roundId === roundId && (ci || ui)) {
             gameState.currentPairImgs = {
                 citizen: ci || gameState.currentPairImgs?.citizen || '',
                 undercover: ui || gameState.currentPairImgs?.undercover || ''
@@ -1548,26 +1549,30 @@ window.submitHint = async function() {
     if (!gameState.hints[me]) gameState.hints[me] = [];
     gameState.hints[me].push(hint);
 
-    // Advance turn
-    const nextTurnIdx = gameState.currentTurnIdx + 1;
-    if (nextTurnIdx >= gameState.players.length) {
-        // All players wrote for this phase — next phase starts at player AFTER the last one
-        const nextPhaseStart = (gameState.currentTurnIdx + 1) % gameState.players.length;
+    // Advance turn — on tourne à partir du joueur de départ (roundStartIdx)
+    const n = gameState.players.length;
+    const startIdx = gameState.roundStartIdx ?? 0;
+    // Combien de joueurs ont donné un indice dans cette phase ?
+    const hintsThisPhase = Object.values(gameState.hints).filter(arr => arr.length >= gameState.currentHintPhase).length;
+
+    if (hintsThisPhase >= n) {
+        // Tous les joueurs ont joué cette phase
         if (gameState.currentHintPhase < gameState.settings.hintsPerRound) {
-            // Next phase — start from next player after last (wraps around, never same player twice in a row)
             gameState.currentHintPhase += 1;
-            gameState.currentTurnIdx = nextPhaseStart;
+            // La prochaine phase repart du même joueur de départ
+            gameState.currentTurnIdx = startIdx;
         } else {
-            // All phases done — go to vote
+            // Toutes les phases terminées — vote
             gameState.screen = 'game-vote';
-            gameState.currentTurnIdx = nextPhaseStart;
+            gameState.currentTurnIdx = startIdx;
         }
     } else {
-        gameState.currentTurnIdx = nextTurnIdx;
+        // Joueur suivant dans l'ordre circulaire
+        gameState.currentTurnIdx = (gameState.currentTurnIdx + 1) % n;
     }
 
-    await saveGame();
-    render();
+    render(); // feedback visuel immédiat avant l'attente réseau
+    saveGame(); // non-bloquant — le polling synchronisera les autres joueurs
 };
 
 // checkHintPhaseComplete — remplacé par la logique turn-based dans submitHint
