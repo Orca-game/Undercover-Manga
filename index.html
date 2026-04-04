@@ -928,6 +928,16 @@ const IMGUR_URLS = {
     'Zuko': 'https://i.imgur.com/hmVCS84.jpeg',
 };
 
+// Vérifie qu'une URL d'image charge vraiment (évite les 404 silencieux)
+function validateImageUrl(url) {
+    return new Promise(resolve => {
+        const img = new Image();
+        img.onload = () => resolve(url);
+        img.onerror = () => resolve(null);
+        img.src = url;
+    });
+}
+
 async function fetchAniListImage(characterName) {
     if (_imgCache[characterName]) return _imgCache[characterName];
 
@@ -943,7 +953,10 @@ async function fetchAniListImage(characterName) {
             const r = await fetch('https://api.jikan.moe/v4/characters/' + FIXED_IDS[characterName]);
             const d = await r.json();
             const url = d?.data?.images?.jpg?.image_url;
-            if (url) { _imgCache[characterName] = url; return url; }
+            if (url) {
+                const valid = await validateImageUrl(url);
+                if (valid) { _imgCache[characterName] = url; return url; }
+            }
         } catch(e) { console.warn('[Jikan ID]', characterName, e.message); }
     }
 
@@ -954,7 +967,10 @@ async function fetchAniListImage(characterName) {
         const r = await fetch('https://api.jikan.moe/v4/characters?q=' + encodeURIComponent(searchName) + '&limit=1');
         const d = await r.json();
         const url = d?.data?.[0]?.images?.jpg?.image_url;
-        if (url) { _imgCache[characterName] = url; return url; }
+        if (url) {
+            const valid = await validateImageUrl(url);
+            if (valid) { _imgCache[characterName] = url; return url; }
+        }
     } catch(e) { console.warn('[Jikan]', characterName, e.message); }
 
     return null;
@@ -1637,20 +1653,23 @@ function calculateRoundScores() {
 
     players.forEach(p => {
         if (p.name === undercover) {
-            // +10 par citoyen qui a voté faux (n'a pas trouvé l'UC)
-            // +5 bonus si AUCUN citoyen n'a trouvé l'UC
+            // +10 par citoyen qui vote mal (n'a pas trouvé l'UC)
+            // +5 bonus si TOUS les citoyens votent mal
             const gain = citizensWhoVotedWrong * 10;
             const bonus = undercoverPerfect ? 5 : 0;
             gameState.scores[p.name] += gain + bonus;
         } else {
             const votedCorrectly = votes[p.name] === undercover;
-            // +5 si vote correct, -10 si vote faux
-            const selfScore = votedCorrectly ? 5 : -10;
-            // -10 par allié qui a voté faux
+            // Propre vote : +5 si Undercover, -5 si Citoyen
+            const selfScore = votedCorrectly ? 5 : -5;
+            // Alliés : +10 par allié qui vote Undercover, -10 par allié qui vote Citoyen
+            const alliesCorrect = players.filter(x =>
+                x.name !== undercover && x.name !== p.name && votes[x.name] === undercover
+            ).length;
             const alliesWrong = players.filter(x =>
                 x.name !== undercover && x.name !== p.name && votes[x.name] !== undercover
             ).length;
-            const allyScore = -(alliesWrong * 10);
+            const allyScore = (alliesCorrect * 10) - (alliesWrong * 10);
             gameState.scores[p.name] += selfScore + allyScore;
         }
     });
@@ -2290,17 +2309,19 @@ function renderRoundResult(app) {
     const deltas = {};
     gameState.players.forEach(p => {
         if (p.name === undercover) {
-            // Identique à calculateRoundScores
             const gain = citizensWhoVotedWrong * 10;
             const bonus = undercoverPerfect ? 5 : 0;
             deltas[p.name] = gain + bonus;
         } else {
             const votedCorrectly = votes[p.name] === undercover;
+            const selfScore = votedCorrectly ? 5 : -5;
+            const alliesCorrect = gameState.players.filter(x =>
+                x.name !== undercover && x.name !== p.name && votes[x.name] === undercover
+            ).length;
             const alliesWrong = gameState.players.filter(x =>
                 x.name !== undercover && x.name !== p.name && votes[x.name] !== undercover
             ).length;
-            const selfScore = votedCorrectly ? 5 : -10;
-            const allyScore = -(alliesWrong * 10);
+            const allyScore = (alliesCorrect * 10) - (alliesWrong * 10);
             deltas[p.name] = selfScore + allyScore;
         }
     });
