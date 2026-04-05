@@ -1232,6 +1232,24 @@ async function loadGame(code) {
             }
         }
 
+        // Si JE suis Mr White et que l'écran est game-mrwhite-waiting, déclencher mon pop-up
+        if (gameState.screen === 'game-mrwhite-waiting'
+            && gameState.mrWhiteName === myName
+            && !gameState.mrWhiteGuess
+            && !document.getElementById('mrwhite-overlay')) {
+            render();
+            const advanceMW = () => {
+                if (gameState.currentRound >= gameState.settings.rounds) {
+                    gameState.screen = 'game-final';
+                } else {
+                    gameState.screen = 'game-roundresult';
+                }
+                saveGame().then(() => render());
+            };
+            showMrWhiteGuessPopup(advanceMW);
+            return;
+        }
+
         render();
 
         // Host: check if all votes are in (in case non-host voted last)
