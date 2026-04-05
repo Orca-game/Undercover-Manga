@@ -1414,8 +1414,12 @@ async function beginNewRound() {
     gameState.hints = {};
     gameState.votes = {};
     gameState.currentHintPhase = 1;
-    gameState.currentTurnIdx = Math.floor(Math.random() * gameState.players.length);
-    gameState.roundStartIdx = gameState.currentTurnIdx;
+    // Choisir le premier joueur — Mr White ne peut jamais commencer
+    let startIdx = Math.floor(Math.random() * gameState.players.length);
+    // On assigne les rôles plus bas, mais on peut déjà s'assurer que l'idx de départ
+    // ne tombe pas sur Mr White (on le vérifie après l'assignation des rôles)
+    gameState.currentTurnIdx = startIdx;
+    gameState.roundStartIdx = startIdx;
     gameState.roundId = Date.now();
     gameState.currentPairImgs = { citizen: '', undercover: '' };
 
@@ -1446,6 +1450,21 @@ async function beginNewRound() {
     gameState.mrWhiteName = (gameState.settings.mrWhite && gameState.players.length >= 4)
         ? shuffledPlayers[1] : null;
     gameState.mrWhiteGuess = null;
+
+    // S'assurer que Mr White ne commence jamais en premier
+    if (gameState.mrWhiteName) {
+        const mrWhiteIdx = gameState.players.findIndex(p => p.name === gameState.mrWhiteName);
+        if (mrWhiteIdx !== -1) {
+            let safeIdx = gameState.currentTurnIdx;
+            let attempts = 0;
+            while (safeIdx === mrWhiteIdx && attempts < gameState.players.length) {
+                safeIdx = (safeIdx + 1) % gameState.players.length;
+                attempts++;
+            }
+            gameState.currentTurnIdx = safeIdx;
+            gameState.roundStartIdx = safeIdx;
+        }
+    }
 
     // Go directly to hints screen — no reveal screen anymore
     gameState.screen = 'game-hints';
@@ -1622,16 +1641,16 @@ function calculateRoundScores() {
     // Ensure all players have a score entry (don't reset existing)
     players.forEach(p => { if (gameState.scores[p.name] === undefined) gameState.scores[p.name] = 0; });
 
-    // Count votes on undercover (from citizens only)
+    const mrWhite = gameState.mrWhiteName || null;
+
+    // Count votes on undercover (from REAL citizens only — excludes Mr White)
     let votesOnUndercover = 0;
     players.forEach(p => {
-        if (p.name !== undercover && votes[p.name] === undercover) votesOnUndercover++;
+        if (p.name !== undercover && p.name !== mrWhite && votes[p.name] === undercover) votesOnUndercover++;
     });
-    const citizenCount = n - 1;
+    const citizenCount = n - 1 - (mrWhite ? 1 : 0); // real citizens only
     const citizensWhoVotedWrong = citizenCount - votesOnUndercover;
-    const undercoverPerfect = votesOnUndercover === 0; // no citizen found UC
-
-    const mrWhite = gameState.mrWhiteName || null;
+    const undercoverPerfect = votesOnUndercover === 0; // no real citizen found UC
     players.forEach(p => {
         if (p.name === undercover) {
             // UC : +10 par citoyen qui vote mal, -10 par citoyen qui vote bien
@@ -1640,10 +1659,10 @@ function calculateRoundScores() {
             const bonus = undercoverPerfect ? 5 : 0;
             gameState.scores[p.name] += gain + bonus;
         } else if (p.name === mrWhite) {
-            // Mr White : vote UC +5, vote Citoyen -5
+            // Mr White : vote UC +5, vote Citoyen -10
             // +10 si trouve le nom du personnage citoyen (géré après le vote via pop-up)
             const votedCorrectly = votes[p.name] === undercover;
-            gameState.scores[p.name] += votedCorrectly ? 5 : -5;
+            gameState.scores[p.name] += votedCorrectly ? 5 : -10;
             // Note : le +10 du guess est ajouté dans window.submitMrWhiteGuess
         } else {
             const votedCorrectly = votes[p.name] === undercover;
@@ -2157,8 +2176,12 @@ function renderRevealGate(app) {
 window.launchHints = async function() {
     if (!gameState.isHost) return;
     gameState.screen = 'game-hints';
-    gameState.currentTurnIdx = Math.floor(Math.random() * gameState.players.length);
-    gameState.roundStartIdx = gameState.currentTurnIdx;
+    // Choisir le premier joueur — Mr White ne peut jamais commencer
+    let startIdx = Math.floor(Math.random() * gameState.players.length);
+    // On assigne les rôles plus bas, mais on peut déjà s'assurer que l'idx de départ
+    // ne tombe pas sur Mr White (on le vérifie après l'assignation des rôles)
+    gameState.currentTurnIdx = startIdx;
+    gameState.roundStartIdx = startIdx;
     await saveGame();
     render();
 };
@@ -2440,33 +2463,40 @@ function renderRoundResult(app) {
     const citizenImg = imgs.citizen || pair.citizen.img || '';
     const undercoverImg = imgs.undercover || pair.undercover.img || '';
 
-    // Recompute deltas for display
+    // Recompute deltas for display — mirrors calculateRoundScores exactly
+    const mrWhiteDisplay = gameState.mrWhiteName || null;
     const n = gameState.players.length;
-    let votesOnUndercover = 0;
+    let votesOnUndercoverD = 0;
     gameState.players.forEach(p => {
-        if (p.name !== undercover && votes[p.name] === undercover) votesOnUndercover++;
+        if (p.name !== undercover && p.name !== mrWhiteDisplay && votes[p.name] === undercover) votesOnUndercoverD++;
     });
-    const citizenCount = n - 1;
-    const citizensWhoVotedWrong = citizenCount - votesOnUndercover;
-    const undercoverPerfect = votesOnUndercover === 0;
+    const citizenCountD = n - 1 - (mrWhiteDisplay ? 1 : 0);
+    const citizensWhoVotedWrongD = citizenCountD - votesOnUndercoverD;
+    const undercoverPerfectD = votesOnUndercoverD === 0;
 
     const deltas = {};
     gameState.players.forEach(p => {
         if (p.name === undercover) {
-            const gain = citizensWhoVotedWrong * 10;
-            const bonus = undercoverPerfect ? 5 : 0;
+            const gain = (citizensWhoVotedWrongD * 10) - (votesOnUndercoverD * 10);
+            const bonus = undercoverPerfectD ? 5 : 0;
             deltas[p.name] = gain + bonus;
+        } else if (p.name === mrWhiteDisplay) {
+            const votedCorrectly = votes[p.name] === undercover;
+            const voteScore = votedCorrectly ? 5 : -10;
+            const guessBonus = gameState.mrWhiteGuess?.correct ? 10 : 0;
+            deltas[p.name] = voteScore + guessBonus;
         } else {
             const votedCorrectly = votes[p.name] === undercover;
-            const selfScore = votedCorrectly ? 5 : -5;
+            const selfScore = votedCorrectly ? 5 : -10;
             const alliesCorrect = gameState.players.filter(x =>
-                x.name !== undercover && x.name !== p.name && votes[x.name] === undercover
+                x.name !== undercover && x.name !== mrWhiteDisplay && x.name !== p.name && votes[x.name] === undercover
             ).length;
             const alliesWrong = gameState.players.filter(x =>
-                x.name !== undercover && x.name !== p.name && votes[x.name] !== undercover
+                x.name !== undercover && x.name !== mrWhiteDisplay && x.name !== p.name && votes[x.name] !== undercover
             ).length;
-            const allyScore = (alliesCorrect * 10) - (alliesWrong * 10);
-            deltas[p.name] = selfScore + allyScore;
+            const allyScore = (alliesCorrect * 5) - (alliesWrong * 5);
+            const raw = selfScore + allyScore;
+            deltas[p.name] = votedCorrectly ? Math.max(0, raw) : raw;
         }
     });
 
