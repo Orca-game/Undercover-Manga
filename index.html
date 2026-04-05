@@ -1051,6 +1051,8 @@ const gameState = {
     currentRound: 0,       // 1-based
     currentPairIdx: null,  // index into PAIRS
     undercoverName: null,  // name of undercover player
+    mrWhiteName: null,     // name of Mr White player (null if no Mr White)
+    mrWhiteGuess: null,    // { guess: str, correct: bool } after round
     // Per-round hints: { playerName: [hint1, hint2] }
     hints: {},
     currentHintPhase: 1,   // 1 or 2 (or more)
@@ -1184,11 +1186,19 @@ async function loadGame(code) {
         const myCurrentPairImgs = (gameState.currentPairImgs && (gameState.currentPairImgs.citizen || gameState.currentPairImgs.undercover))
                                   ? { ...gameState.currentPairImgs } : null;
 
+        // Save mrWhiteGuess before overwrite — protect local guess from being erased by polling
+        const myMrWhiteGuess = gameState.mrWhiteGuess || null;
+
         Object.assign(gameState, remote);
 
         // Restore currentPairImgs if local has images but remote doesn't (race condition with Jikan fetch)
         if (myCurrentPairImgs && (!gameState.currentPairImgs || (!gameState.currentPairImgs.citizen && !gameState.currentPairImgs.undercover))) {
             gameState.currentPairImgs = myCurrentPairImgs;
+        }
+
+        // Restore mrWhiteGuess if local has it but remote doesn't yet (saveGame still in flight)
+        if (myMrWhiteGuess && !gameState.mrWhiteGuess) {
+            gameState.mrWhiteGuess = myMrWhiteGuess;
         }
         gameState.playerName = myName;
         gameState.roomCode   = myCode;
@@ -1288,7 +1298,8 @@ window.createRoom = async function() {
     gameState.isHost = true;
     gameState.screen = 'lobby';
     gameState.players = [{ name: pseudo, score: 0, ready: true, isHost: true }];
-    gameState.settings = { rounds, hintsPerRound: hints, difficulty, customSeries };
+    const mrWhite = document.getElementById('settings-mrwhite')?.checked || false;
+    gameState.settings = { rounds, hintsPerRound: hints, difficulty, customSeries, mrWhite };
     gameState.scores = { [pseudo]: 0 };
     gameState.usedPairIndices = [];
     gameState.currentRound = 0;
@@ -1410,7 +1421,12 @@ async function beginNewRound() {
     gameState.currentPairIdx = pairIdx;
     if (!gameState.usedPairIndices) gameState.usedPairIndices = [];
     gameState.usedPairIndices.push(pairIdx);
-    gameState.undercoverName = shuffle(gameState.players.map(p => p.name))[0];
+    // Assign roles
+    const shuffledPlayers = shuffle(gameState.players.map(p => p.name));
+    gameState.undercoverName = shuffledPlayers[0];
+    gameState.mrWhiteName = (gameState.settings.mrWhite && gameState.players.length >= 4)
+        ? shuffledPlayers[1] : null;
+    gameState.mrWhiteGuess = null;
 
     // Go directly to hints screen — no reveal screen anymore
     gameState.screen = 'game-hints';
@@ -1596,6 +1612,7 @@ function calculateRoundScores() {
     const citizensWhoVotedWrong = citizenCount - votesOnUndercover;
     const undercoverPerfect = votesOnUndercover === 0; // no citizen found UC
 
+    const mrWhite = gameState.mrWhiteName || null;
     players.forEach(p => {
         if (p.name === undercover) {
             // UC : +10 par citoyen qui vote mal, -10 par citoyen qui vote bien
@@ -1603,16 +1620,23 @@ function calculateRoundScores() {
             const gain = (citizensWhoVotedWrong * 10) - (votesOnUndercover * 10);
             const bonus = undercoverPerfect ? 5 : 0;
             gameState.scores[p.name] += gain + bonus;
+        } else if (p.name === mrWhite) {
+            // Mr White : vote UC +5, vote Citoyen -5
+            // +10 si trouve le nom du personnage citoyen (géré après le vote via pop-up)
+            const votedCorrectly = votes[p.name] === undercover;
+            gameState.scores[p.name] += votedCorrectly ? 5 : -5;
+            // Note : le +10 du guess est ajouté dans window.submitMrWhiteGuess
         } else {
             const votedCorrectly = votes[p.name] === undercover;
             // Propre vote : +5 si Undercover, -10 si Citoyen
             const selfScore = votedCorrectly ? 5 : -10;
             // Alliés : +5 par allié qui vote Undercover, -5 par allié qui vote Citoyen
+            // On exclut Mr White des alliés citoyens
             const alliesCorrect = players.filter(x =>
-                x.name !== undercover && x.name !== p.name && votes[x.name] === undercover
+                x.name !== undercover && x.name !== mrWhite && x.name !== p.name && votes[x.name] === undercover
             ).length;
             const alliesWrong = players.filter(x =>
-                x.name !== undercover && x.name !== p.name && votes[x.name] !== undercover
+                x.name !== undercover && x.name !== mrWhite && x.name !== p.name && votes[x.name] !== undercover
             ).length;
             const allyScore = (alliesCorrect * 5) - (alliesWrong * 5);
             const rawScore = selfScore + allyScore;
@@ -1625,14 +1649,93 @@ function calculateRoundScores() {
     // Sync scores back to players array for display
     players.forEach(p => { p.score = gameState.scores[p.name]; });
 
-    // Advance screen
-    if (gameState.currentRound >= gameState.settings.rounds) {
-        gameState.screen = 'game-final';
+    // Si Mr White est en jeu, on lui demande de deviner le personnage citoyen AVANT les résultats
+    // Le pop-up n'apparaît que sur son écran (côté client)
+    const advanceScreen = () => {
+        if (gameState.currentRound >= gameState.settings.rounds) {
+            gameState.screen = 'game-final';
+        } else {
+            gameState.screen = 'game-roundresult';
+        }
+        saveGame().then(() => { _calculatingScores = false; render(); });
+    };
+
+    if (mrWhite && mrWhite === gameState.playerName) {
+        // C'est moi Mr White — sauvegarder d'abord, puis afficher le pop-up de guess
+        saveGame().then(() => {
+            _calculatingScores = false;
+            showMrWhiteGuessPopup(advanceScreen);
+        });
     } else {
-        gameState.screen = 'game-roundresult';
+        advanceScreen();
     }
-    saveGame().then(() => { _calculatingScores = false; render(); });
 }
+
+// ──────────────────────────────────────
+//  MR WHITE — Guess popup
+// ──────────────────────────────────────
+function showMrWhiteGuessPopup(callback) {
+    const pair = PAIRS[gameState.currentPairIdx];
+    if (!pair) { callback(); return; }
+
+    const old = document.getElementById('mrwhite-overlay');
+    if (old) old.remove();
+
+    const ov = document.createElement('div');
+    ov.id = 'mrwhite-overlay';
+    ov.className = 'uc-overlay';
+    ov.innerHTML = `
+        <div class="uc-card" style="text-align:center;max-width:380px">
+            <p style="font-size:10px;font-weight:700;color:#c0a0ff;letter-spacing:3px;text-transform:uppercase;margin-bottom:6px">⬜ Mr White</p>
+            <h2 class="font-cinzel" style="font-size:20px;font-weight:900;color:#ffffff;margin-bottom:6px">Devine le personnage !</h2>
+            <p style="font-size:13px;color:var(--text-muted);margin-bottom:18px">Quel était le personnage des citoyens ?<br>Tu n'as qu'<strong style="color:#ffffff">une seule chance</strong>.</p>
+            <input id="mrwhite-input" class="uc-input" placeholder="Nom du personnage..." maxlength="40" style="margin-bottom:14px;text-align:center;font-size:15px">
+            <button class="uc-btn uc-btn-primary" onclick="window.submitMrWhiteGuess()" style="margin-bottom:8px">✓ Valider ma réponse</button>
+        </div>`;
+    document.body.appendChild(ov);
+
+    const inp = document.getElementById('mrwhite-input');
+    if (inp) {
+        inp.focus();
+        inp.addEventListener('keydown', e => { if (e.key === 'Enter') window.submitMrWhiteGuess(); });
+    }
+
+    window._mrWhiteCallback = callback;
+}
+
+window.submitMrWhiteGuess = async function() {
+    const pair = PAIRS[gameState.currentPairIdx];
+    const inp = document.getElementById('mrwhite-input');
+    const guess = (inp?.value || '').trim();
+    if (!guess) { inp?.focus(); return; }
+
+    const citizenName = pair?.citizen?.name || '';
+    // Comparaison insensible à la casse et aux accents
+    const normalize = s => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').trim();
+    const correct = normalize(guess) === normalize(citizenName);
+
+    // Stocker le résultat dans gameState
+    gameState.mrWhiteGuess = { guess, correct };
+
+    // Bonus +10 si correct
+    if (correct) {
+        const me = gameState.playerName;
+        if (!gameState.scores) gameState.scores = {};
+        if (gameState.scores[me] === undefined) gameState.scores[me] = 0;
+        gameState.scores[me] += 10;
+        // Sync players array
+        const mp = gameState.players.find(p => p.name === me);
+        if (mp) mp.score = gameState.scores[me];
+    }
+
+    // Fermer overlay
+    const ov = document.getElementById('mrwhite-overlay');
+    if (ov) ov.remove();
+
+    // Sauvegarder puis avancer
+    await saveGame();
+    if (window._mrWhiteCallback) { window._mrWhiteCallback(); window._mrWhiteCallback = null; }
+};
 
 window.nextRound = async function() {
     if (!gameState.isHost) return;
@@ -1645,6 +1748,7 @@ window.goHome = function() {
         screen: 'home', roomCode: null, playerName: null, isHost: false,
         players: [], settings: { rounds: 3, hintsPerRound: 2 },
         currentRound: 0, currentPairIdx: null, undercoverName: null,
+        mrWhiteName: null, mrWhiteGuess: null,
         hints: {}, currentHintPhase: 1, votes: {}, scores: {}, usedPairIndices: [], _savedAt: null
     });
     render();
@@ -1769,6 +1873,20 @@ function renderHome(app) {
                         <option value="3">3 indices (intense)</option>
                         <option value="4">4 indices (long)</option>
                     </select>
+
+                    <!-- Mr White toggle -->
+                    <div style="display:flex;align-items:center;justify-content:space-between;background:rgba(192,160,255,0.06);border:1px solid rgba(192,160,255,0.15);border-radius:10px;padding:12px 14px;margin-bottom:14px">
+                        <div>
+                            <p style="font-size:13px;font-weight:700;color:#e8e0ff">⬜ Mode Mr White</p>
+                            <p style="font-size:11px;color:var(--text-muted);margin-top:2px">4 joueurs min. — Bluff total, guess le perso citoyen</p>
+                        </div>
+                        <label style="position:relative;display:inline-block;width:44px;height:24px;flex-shrink:0;margin-left:12px">
+                            <input type="checkbox" id="settings-mrwhite" style="opacity:0;width:0;height:0">
+                            <span onclick="this.previousElementSibling.checked=!this.previousElementSibling.checked;this.style.background=this.previousElementSibling.checked?'#7c3aed':'rgba(120,20,20,0.3)'" style="position:absolute;cursor:pointer;inset:0;background:rgba(120,20,20,0.3);border-radius:24px;transition:0.2s">
+                                <span style="position:absolute;content:'';height:18px;width:18px;left:3px;bottom:3px;background:white;border-radius:50%;transition:0.2s;transform:translateX(0)" id="mrwhite-toggle-knob"></span>
+                            </span>
+                        </label>
+                    </div>
 
                     <label style="display:block;font-size:11px;font-weight:700;color:var(--text-dim);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px">Difficulté</label>
                     <select id="settings-difficulty" class="uc-select" style="margin-bottom:8px" onchange="window._onDifficultyChange(this.value)">
@@ -1997,11 +2115,13 @@ function renderHints(app) {
     const pair = PAIRS[gameState.currentPairIdx];
     if (!pair) return;
     const isUndercover = me === gameState.undercoverName;
+    const isMrWhite = me === gameState.mrWhiteName;
     const imgs = gameState.currentPairImgs || {};
-    const myChar = {
-        name: isUndercover ? pair.undercover.name : pair.citizen.name,
-        img: isUndercover ? (imgs.undercover || '') : (imgs.citizen || '')
-    };
+    const myChar = isUndercover
+        ? { name: pair.undercover.name, img: imgs.undercover || '' }
+        : isMrWhite
+            ? { name: 'Mr White', img: '' }
+            : { name: pair.citizen.name, img: imgs.citizen || '' };
     const phase = gameState.currentHintPhase;
     const totalPhases = gameState.settings.hintsPerRound;
     const currentPlayer = gameState.players[gameState.currentTurnIdx || 0];
@@ -2047,8 +2167,8 @@ function renderHints(app) {
                     }
                     <div style="flex:1;min-width:0">
                         <p style="font-size:9px;color:var(--text-muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:3px">Ton personnage</p>
-                        <p style="font-size:16px;font-weight:900;color:#ffffff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${myChar.name}</p>
-                        <p style="font-size:10px;color:var(--text-muted);margin-top:2px">Ne montre pas ton écran</p>
+                        <p style="font-size:16px;font-weight:900;color:${isMrWhite ? '#c0a0ff' : '#ffffff'};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${myChar.name}</p>
+                        ${isMrWhite ? '<p style="font-size:10px;color:#c0a0ff;margin-top:2px;font-weight:700">⬜ Bluff — tu n'as aucun personnage</p>' : '<p style="font-size:10px;color:var(--text-muted);margin-top:2px">Ne montre pas ton écran</p>'}
                     </div>
                     <!-- Scores -->
                     <div style="display:flex;gap:10px;flex-shrink:0">
@@ -2323,6 +2443,20 @@ function renderRoundResult(app) {
                     <p style="font-size:11px;color:var(--text-muted);margin-top:1px">jouait le rôle de <em>${pair.undercover.name}</em></p>
                 </div>
 
+                <!-- Mr White guess result -->
+                ${gameState.mrWhiteName ? (() => {
+                    const mwg = gameState.mrWhiteGuess;
+                    const mwName = gameState.mrWhiteName;
+                    return `<div style="background:rgba(192,160,255,0.08);border:1px solid rgba(192,160,255,0.25);border-radius:10px;padding:10px 14px;text-align:center;margin-bottom:14px">
+                        <p style="font-size:10px;font-weight:700;color:#c0a0ff;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px">⬜ Mr White — ${mwName}</p>
+                        ${mwg
+                            ? `<p style="font-size:13px;color:var(--text-dim)">A deviné : <strong style="color:#ffffff">${mwg.guess}</strong></p>
+                               <p style="font-size:14px;font-weight:800;margin-top:4px;color:${mwg.correct ? '#4ade80' : '#d47070'}">${mwg.correct ? '✓ Correct ! +10 pts' : '✗ Raté — le bon était : ' + pair.citizen.name}</p>`
+                            : `<p style="font-size:12px;color:var(--text-muted)">En attente du guess...</p>`
+                        }
+                    </div>`;
+                })() : ''}
+
                 <!-- Votes + score deltas -->
                 <div style="margin-bottom:16px">
                     <p style="font-size:10px;font-weight:700;color:var(--text-muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px">Votes & points ce round</p>
@@ -2332,10 +2466,12 @@ function renderRoundResult(app) {
                         const isUC = p.name === undercover;
                         const deltaColor = delta > 0 ? '#4ade80' : delta < 0 ? '#d47070' : 'var(--text-muted)';
                         const deltaStr = delta > 0 ? '+' + delta : String(delta);
-                        return `<div style="display:flex;justify-content:space-between;align-items:center;padding:9px 12px;background:rgba(20,8,8,0.7);border-radius:8px;margin-bottom:5px;border:1px solid ${isUC ? 'rgba(120,20,20,0.4)' : (votedRight ? 'rgba(74,222,128,0.18)' : 'rgba(248,113,113,0.18)')}">
+                        const isMW = p.name === gameState.mrWhiteName;
+                        return `<div style="display:flex;justify-content:space-between;align-items:center;padding:9px 12px;background:rgba(20,8,8,0.7);border-radius:8px;margin-bottom:5px;border:1px solid ${isUC ? 'rgba(120,20,20,0.4)' : isMW ? 'rgba(192,160,255,0.2)' : (votedRight ? 'rgba(74,222,128,0.18)' : 'rgba(248,113,113,0.18)')}">
                             <div style="flex:1">
                                 <span style="font-weight:700;font-size:13px;color:#f5f0eb">${p.name}</span>
                                 ${isUC ? '<span style="font-size:9px;color:#c08080;margin-left:6px;letter-spacing:1px;font-weight:700">UNDERCOVER</span>' : ''}
+                                ${isMW ? '<span style="font-size:9px;color:#c0a0ff;margin-left:6px;letter-spacing:1px;font-weight:700">MR WHITE</span>' : ''}
                             </div>
                             <div style="text-align:right">
                                 <span style="font-size:11px;color:var(--text-muted);margin-right:10px">→ ${votes[p.name] || '?'} ${!isUC ? (votedRight ? '✓' : '✗') : ''}</span>
