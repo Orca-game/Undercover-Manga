@@ -812,30 +812,6 @@ const CHAR_MAP = {
     'Kisuke Urahara':       { n: 'Kisuke Urahara',        a: 'Bleach' },
     'Makoto Shishio':       { n: 'Makoto Shishio',        a: 'Rurouni Kenshin' },
     'Choso':                { n: 'Choso',                 a: 'Jujutsu Kaisen' },
-    // Nouveaux personnages Round 7
-    'Mayuri Kurotsuchi':       { n: 'Mayuri Kurotsuchi',       a: 'Bleach' },
-    'Shou Tucker':             { n: 'Shou Tucker',             a: 'Fullmetal Alchemist' },
-    'Gendo Ikari':             { n: 'Gendo Ikari',             a: 'Neon Genesis Evangelion' },
-    'Killer Bee':              { n: 'Killer Bee',              a: 'Naruto Shippuden' },
-    'Biscuit Krueger':         { n: 'Biscuit Krueger',         a: 'Hunter x Hunter' },
-    'Erwin Smith':             { n: 'Erwin Smith',             a: 'Shingeki no Kyojin' },
-    'Muzan Kibutsuji':         { n: 'Muzan Kibutsuji',         a: 'Kimetsu no Yaiba' },
-    'Annie Leonhart':          { n: 'Annie Leonhart',          a: 'Shingeki no Kyojin' },
-    'Kaneda':                  { n: 'Shotaro Kaneda',          a: 'Akira' },
-    'Hyakkimaru':              { n: 'Hyakkimaru',              a: 'Dororo' },
-    'Isabella':                { n: 'Isabella',                a: 'Yakusoku no Neverland' },
-    'Riza Hawkeye':            { n: 'Riza Hawkeye',            a: 'Fullmetal Alchemist' },
-    'Genkai':                  { n: 'Genkai',                  a: 'Yu Yu Hakusho' },
-    'Revvy':                   { n: 'Rebecca',                 a: 'Black Lagoon' },
-    'Naraku':                  { n: 'Naraku',                  a: 'Inuyasha' },
-    'Stain':                   { n: 'Chizome Akaguro',         a: 'Boku no Hero Academia' },
-    'Kars':                    { n: 'Kars',                    a: 'JoJo no Kimyou na Bouken Part 2' },
-    'Ling Yao':                { n: 'Ling Yao',                a: 'Fullmetal Alchemist: Brotherhood' },
-    'Bertholdt Hoover':        { n: 'Bertholdt Hoover',        a: 'Shingeki no Kyojin' },
-    'Jonathan Joestar':        { n: 'Jonathan Joestar',        a: 'JoJo no Kimyou na Bouken' },
-    'Nicolas D. Wolfwood':     { n: 'Nicholas D. Wolfwood',    a: 'Trigun' },
-    'Master Roshi':            { n: 'Muten Roushi',            a: 'Dragon Ball' },
-    'Saber':                   { n: 'Artoria Pendragon',       a: 'Fate/Stay Night' },
 };
 
 // For these characters, fetch by MAL ID directly (avoids wrong results from name search)
@@ -875,38 +851,12 @@ const FIXED_IDS = {
     'Kimura Tatsuya': 847,       'Yujiro Hanma': 10499,       'Cha Hae-In': 173979,
     'Leone': 65227,              'Mine': 65229,               'Afro Samurai': 2549,
     'Eto': 112997,
-    'DIO': 4004,
-    'Giorno Giovanna': 10529,
-    'Mayuri Kurotsuchi': 3100,
-    'Gendo Ikari': 1257,
-    'Biscuit Krueger': 13898,
-    'Erwin Smith': 46496,
-    'Annie Leonhart': 46490,
-    'Hyakkimaru': 14864,
-    'Isabella': 144999,
-    'Riza Hawkeye': 70,
-    'Revvy': 458,
-    'Naraku': 1367,
-    'Stain': 132691,
-    'Kars': 21966,
-    'Ling Yao': 3293,
-    'Bertholdt Hoover': 46488,
-    'Jonathan Joestar': 8087,
-    'Nicolas D. Wolfwood': 722,
-    'Saber': 497,
-    'Shou Tucker': 3696,
-    'Killer Bee': 18473,
-    'Muzan Kibutsuji': 151156,
-    'Genkai': 735,
 };
 
 // Fallback URLs — only for characters Jikan can't find reliably
 // NOTE: static.wikia.nocookie.net URLs were removed (all returning 404)
 const IMGUR_URLS = {
     'Zuko': 'https://i.imgur.com/hmVCS84.jpeg',
-    'Kaneda': 'https://cdn.myanimelist.net/images/characters/4/422589.jpg',
-    'Jotaro Kujo': 'https://cdn.myanimelist.net/images/characters/8/357565.jpg',
-    'Master Roshi': 'https://cdn.myanimelist.net/images/characters/9/72549.jpg',
 };
 
 async function fetchAniListImage(characterName) {
@@ -969,6 +919,9 @@ async function prefetchPairImages(pairIdx) {
 // Images: Wikimedia commons / libre de droit / placeholder coloré
 
 const PAIRS = [
+    // ══ PAIRES VALIDÉES PAR SYSTÈME DE TAGS N1 ══
+
+    // Naruto
     { citizen: { name: 'Naruto Uzumaki', img: '' }, undercover: { name: 'Gaara', img: '' }, tag: 'Jinchuriki rejetés par leur village, portent un démon, rédemption par l\'amitié', difficulty: 'popular' },
     { citizen: { name: 'Sasuke Uchiha', img: '' }, undercover: { name: 'Kurapika', img: '' }, tag: 'Clan massacré, vengeance totale, survivants solitaires', difficulty: 'popular' },
     { citizen: { name: 'Sasuke Uchiha', img: '' }, undercover: { name: 'Trafalgar Law', img: '' }, tag: 'Clan massacré, vengeance planifiée sur des années', difficulty: 'popular' },
@@ -976,13 +929,17 @@ const PAIRS = [
     { citizen: { name: 'Itachi Uchiha', img: '' }, undercover: { name: 'Sosuke Aizen', img: '' }, tag: 'Double identité, mastermind qui manipule tout le monde dans l\'ombre', difficulty: 'popular' },
     { citizen: { name: 'Itachi Uchiha', img: '' }, undercover: { name: 'Kabuto Yakushi', img: '' }, tag: 'Double identité, mastermind', difficulty: 'popular' },
     { citizen: { name: 'Itachi Uchiha', img: '' }, undercover: { name: 'Madara Uchiha', img: '' }, tag: 'Clan massacré, mastermind qui tire les ficelles dans l\'ombre', difficulty: 'popular' },
+    { citizen: { name: 'Itachi Uchiha', img: '' }, undercover: { name: 'Askeladd', img: '' }, tag: 'Double identité, véritable protecteur sacrificiel caché sous une façade froide', difficulty: 'intermediate' },
     { citizen: { name: 'Kabuto Yakushi', img: '' }, undercover: { name: 'Sosuke Aizen', img: '' }, tag: 'Double identité, mastermind qui dépasse son maître', difficulty: 'popular' },
     { citizen: { name: 'Kakashi Hatake', img: '' }, undercover: { name: 'Gojo Satoru', img: '' }, tag: 'Masque physique, deuil du meilleur ami, les plus puissants de leur génération', difficulty: 'popular' },
     { citizen: { name: 'Madara Uchiha', img: '' }, undercover: { name: 'Sosuke Aizen', img: '' }, tag: 'Mastermind, manipulation sur des décennies entières', difficulty: 'popular' },
+    { citizen: { name: 'Madara Uchiha', img: '' }, undercover: { name: 'Griffith', img: '' }, tag: 'Deuil du meilleur ami, retour des morts pour accomplir leur rêve', difficulty: 'intermediate' },
     { citizen: { name: 'Obito Uchiha', img: '' }, undercover: { name: 'Ami (20th Century Boys)', img: '' }, tag: 'Masque physique, double identité, manipulation dans l\'ombre', difficulty: 'popular' },
     { citizen: { name: 'Sosuke Aizen', img: '' }, undercover: { name: 'Ami (20th Century Boys)', img: '' }, tag: 'Dieu autoproclamé, double identité révélée tardivement', difficulty: 'popular' },
     { citizen: { name: 'Jiraiya', img: '' }, undercover: { name: 'Whitebeard', img: '' }, tag: 'Père de substitution légendaire, sacrifice de leur vie pour protéger leurs enfants', difficulty: 'popular' },
     { citizen: { name: 'Portgas D. Ace', img: '' }, undercover: { name: 'Whitebeard', img: '' }, tag: 'Sacrifice de soi pour protéger, mort en protégeant un proche', difficulty: 'popular' },
+
+    // Intra-univers
     { citizen: { name: 'Naruto Uzumaki', img: '' }, undercover: { name: 'Sasuke Uchiha', img: '' }, tag: 'Duo légendaire, orphelins, portent le poids de leur monde', difficulty: 'popular' },
     { citizen: { name: 'Portgas D. Ace', img: '' }, undercover: { name: 'Sabo', img: '' }, tag: 'Frères de sang, feu, chapeau iconique, vivent pour Luffy', difficulty: 'popular' },
     { citizen: { name: 'Killua Zoldyck', img: '' }, undercover: { name: 'Gon Freecss', img: '' }, tag: 'Duo inséparable, chasseurs enfants, amitié absolue', difficulty: 'popular' },
@@ -994,32 +951,50 @@ const PAIRS = [
     { citizen: { name: 'DIO', img: '' }, undercover: { name: 'Jotaro Kujo', img: '' }, tag: 'Arrêt du temps, lignée maudite de JoJo', difficulty: 'popular' },
     { citizen: { name: 'Joseph Joestar', img: '' }, undercover: { name: 'Josuke Higashikata', img: '' }, tag: 'Père illégitime et fils caché, lignée JoJo', difficulty: 'popular' },
     { citizen: { name: 'Josuke Higashikata', img: '' }, undercover: { name: 'Jotaro Kujo', img: '' }, tag: 'Oncle et neveu, pouvoirs de guérison/arrêt, lignée JoJo', difficulty: 'popular' },
+
+    // Cross-univers validés N1
+    { citizen: { name: 'Guts', img: '' }, undercover: { name: 'Thorfinn', img: '' }, tag: 'Père tué sous leurs yeux enfant, esclaves/soldats enfants, portent le poids de la vengeance', difficulty: 'popular' },
     { citizen: { name: 'Dabi', img: '' }, undercover: { name: 'Shoto Todoroki', img: '' }, tag: 'Père abusif obsessionnel, cicatrice infligée par un parent, famille Todoroki', difficulty: 'popular' },
     { citizen: { name: 'Dabi', img: '' }, undercover: { name: 'Zuko', img: '' }, tag: 'Père abusif obsessionnel, cicatrice infligée par un parent, prince déchu', difficulty: 'popular' },
     { citizen: { name: 'Shoto Todoroki', img: '' }, undercover: { name: 'Zuko', img: '' }, tag: 'Père abusif obsessionnel, cicatrice infligée par un parent, rédemption', difficulty: 'popular' },
     { citizen: { name: 'Okabe Rintarou', img: '' }, undercover: { name: 'Subaru Natsuki', img: '' }, tag: 'Revivent le même moment indéfiniment, seuls à porter le fardeau de toutes les timelines', difficulty: 'popular' },
+    { citizen: { name: 'Tanjiro Kamado', img: '' }, undercover: { name: 'Ciel Phantomhive', img: '' }, tag: 'Famille massacrée, orphelins qui portent le deuil de toute leur famille', difficulty: 'popular' },
     { citizen: { name: 'Thorfinn', img: '' }, undercover: { name: 'Askeladd', img: '' }, tag: 'Mentor et apprenti liés par le meurtre du père, Viking', difficulty: 'intermediate' },
     { citizen: { name: 'Ken Kaneki', img: '' }, undercover: { name: 'Denji', img: '' }, tag: 'Hybride mi-humain mi-monstre, transformation physique traumatique', difficulty: 'popular' },
     { citizen: { name: 'Ichigo Kurosaki', img: '' }, undercover: { name: 'Ken Kaneki', img: '' }, tag: 'Hybrides mi-humains mi-monstres', difficulty: 'popular' },
     { citizen: { name: 'Akira Fudo', img: '' }, undercover: { name: 'Ken Kaneki', img: '' }, tag: 'Fusionné avec un démon, transformation monstrueuse, trahi', difficulty: 'popular' },
     { citizen: { name: 'Kenpachi Zaraki', img: '' }, undercover: { name: 'Levi Ackerman', img: '' }, tag: 'Orphelins des bas-fonds absolus, les plus puissants de leur génération', difficulty: 'popular' },
     { citizen: { name: 'Sasuke Uchiha', img: '' }, undercover: { name: 'Vegeta', img: '' }, tag: 'Clan massacré, orgueil du prince, rival du héros', difficulty: 'popular' },
+    { citizen: { name: 'Kenshin Himura', img: '' }, undercover: { name: 'Guts', img: '' }, tag: 'Esclaves/soldats enfants, assassins légendaires portant le poids de leurs crimes', difficulty: 'intermediate' },
+    { citizen: { name: 'Kenshin Himura', img: '' }, undercover: { name: 'Thorfinn', img: '' }, tag: 'Esclaves/soldats enfants, guerriers légendaires ayant renoncé à la violence', difficulty: 'intermediate' },
+    { citizen: { name: 'Saichi Sugimoto', img: '' }, undercover: { name: 'Guts', img: '' }, tag: 'Esclaves/soldats enfants, corps couverts de cicatrices, avancent malgré tout', difficulty: 'intermediate' },
+    { citizen: { name: 'Saichi Sugimoto', img: '' }, undercover: { name: 'Thorfinn', img: '' }, tag: 'Esclaves/soldats enfants, traumatismes de guerre, cherchent la paix', difficulty: 'intermediate' },
+    { citizen: { name: 'Kenshin Himura', img: '' }, undercover: { name: 'Saichi Sugimoto', img: '' }, tag: 'Esclaves/soldats enfants, légendaires, portent le poids de leur passé de tueur', difficulty: 'intermediate' },
     { citizen: { name: 'Johan Liebert', img: '' }, undercover: { name: 'Light Yagami', img: '' }, tag: 'Identité mystère absolue, dieu autoproclamé, manipulation totale', difficulty: 'intermediate' },
     { citizen: { name: 'Johan Liebert', img: '' }, undercover: { name: 'Ami (20th Century Boys)', img: '' }, tag: 'Identité mystère absolue, expérience d\'effacement d\'identité enfant, dieu autoproclamé', difficulty: 'intermediate' },
     { citizen: { name: 'Johan Liebert', img: '' }, undercover: { name: 'Sosuke Aizen', img: '' }, tag: 'Dieu autoproclamé, manipulation absolue via une façade parfaite', difficulty: 'intermediate' },
+    { citizen: { name: 'Afro Samurai', img: '' }, undercover: { name: 'Chihiro Rokuhira', img: '' }, tag: 'Père assassiné sous leurs yeux enfant, vengeance de toute une vie, épée légendaire héritée', difficulty: 'popular' },
     { citizen: { name: 'Mikasa Ackerman', img: '' }, undercover: { name: 'Eren Yeager', img: '' }, tag: 'Parents assassinés sous leurs yeux enfant, AoT', difficulty: 'popular' },
+    { citizen: { name: 'Tomura Shigaraki', img: '' }, undercover: { name: 'Ciel Phantomhive', img: '' }, tag: 'Famille tuée sous leurs yeux enfant, orphelins élevés dans la vengeance', difficulty: 'popular' },
     { citizen: { name: 'Genos', img: '' }, undercover: { name: 'Tanjiro Kamado', img: '' }, tag: 'Famille massacrée, se transforment pour la vengeance', difficulty: 'popular' },
+    { citizen: { name: 'Genos', img: '' }, undercover: { name: 'Ciel Phantomhive', img: '' }, tag: 'Famille massacrée, vendus/transformés pour la vengeance', difficulty: 'popular' },
     { citizen: { name: 'Lelouch vi Britannia', img: '' }, undercover: { name: 'Light Yagami', img: '' }, tag: 'Génie, double identité, dieu autoproclamé, sacrifice de soi comme plan final', difficulty: 'popular' },
     { citizen: { name: 'Lelouch vi Britannia', img: '' }, undercover: { name: 'Itachi Uchiha', img: '' }, tag: 'Double identité, sacrifice de soi pour protéger', difficulty: 'popular' },
     { citizen: { name: 'Reiner Braun', img: '' }, undercover: { name: 'Obito Uchiha', img: '' }, tag: 'Double identité, trahison de camp, dissociation psychologique', difficulty: 'popular' },
     { citizen: { name: 'Aki Hayakawa', img: '' }, undercover: { name: 'Itachi Uchiha', img: '' }, tag: 'Famille massacrée, mort certaine planifiée et acceptée', difficulty: 'popular' },
+    { citizen: { name: 'Vash the Stampede', img: '' }, undercover: { name: 'Natsu Dragneel', img: '' }, tag: 'Frère jumeau ennemi légendaire', difficulty: 'popular' },
     { citizen: { name: 'Meliodas', img: '' }, undercover: { name: 'Yuji Itadori', img: '' }, tag: 'Démon intérieur, condamnés dès le départ', difficulty: 'popular' },
+
     { citizen: { name: 'Alucard', img: '' }, undercover: { name: 'DIO', img: '' }, tag: 'Vampires immortels d\'une puissance absolue', difficulty: 'popular' },
+    { citizen: { name: 'Trunks', img: '' }, undercover: { name: 'Okabe Rintarou', img: '' }, tag: 'Voyage dans le temps pour changer un futur catastrophique', difficulty: 'popular' },
+    { citizen: { name: 'Trunks', img: '' }, undercover: { name: 'Subaru Natsuki', img: '' }, tag: 'Voyage dans le temps / revivre pour changer un futur catastrophique', difficulty: 'popular' },
     { citizen: { name: 'Usopp', img: '' }, undercover: { name: 'Gon Freecss', img: '' }, tag: 'Père absent légendaire, grandissent pour l\'égaler', difficulty: 'popular' },
+
     { citizen: { name: 'Ging Freecss', img: '' }, undercover: { name: 'Son Goku', img: '' }, tag: 'Pères absents légendaires qui abandonnent leur enfant pour leur propre aventure', difficulty: 'popular' },
     { citizen: { name: 'Inuyasha', img: '' }, undercover: { name: 'Ken Kaneki', img: '' }, tag: 'Hybrides rejetés par les deux mondes, luttent pour garder leur humanité', difficulty: 'popular' },
     { citizen: { name: 'Shinichi Izumi', img: '' }, undercover: { name: 'Ken Kaneki', img: '' }, tag: 'Fusionnés avec un être non-humain, humanité progressivement perdue', difficulty: 'popular' },
     { citizen: { name: 'Akira Fudo', img: '' }, undercover: { name: 'Denji', img: '' }, tag: 'Fusionnés avec un démon, transformés en monstres contre leur volonté', difficulty: 'popular' },
+    { citizen: { name: 'Gabimaru', img: '' }, undercover: { name: 'Sojiro Seta', img: '' }, tag: 'Conditionnés à ne rien ressentir depuis l\'enfance, condamnés à mort', difficulty: 'intermediate' },
     { citizen: { name: 'Norman', img: '' }, undercover: { name: 'Itachi Uchiha', img: '' }, tag: 'Sacrifice de leur humanité pour sauver les autres, mort certaine planifiée', difficulty: 'popular' },
     { citizen: { name: 'Ryomen Sukuna', img: '' }, undercover: { name: 'DIO', img: '' }, tag: 'Rois légendaires parasites dans le corps d\'un autre', difficulty: 'popular' },
     { citizen: { name: 'Hao Asakura', img: '' }, undercover: { name: 'Pain (Nagato)', img: '' }, tag: 'Dieu autoproclamé, idéologie de destruction née de la souffrance', difficulty: 'popular' },
@@ -1027,8 +1002,13 @@ const PAIRS = [
     { citizen: { name: 'Tomura Shigaraki', img: '' }, undercover: { name: 'Pain (Nagato)', img: '' }, tag: 'Idéologie de destruction née de la souffrance, orphelins de guerre élevés comme armes', difficulty: 'popular' },
     { citizen: { name: 'Osamu Dazai', img: '' }, undercover: { name: 'Lelouch vi Britannia', img: '' }, tag: 'Ancien criminel reconverti, double identité, sacrifice de soi comme plan final', difficulty: 'popular' },
     { citizen: { name: 'Takasugi Shinsuke', img: '' }, undercover: { name: 'Sasuke Uchiha', img: '' }, tag: 'Maître exécuté sous leurs yeux, vengeance contre l\'État/village', difficulty: 'popular' },
+    { citizen: { name: 'Takasugi Shinsuke', img: '' }, undercover: { name: 'Roy Mustang', img: '' }, tag: 'Maître exécuté sous leurs yeux, vengeance contre l\'État', difficulty: 'intermediate' },
     { citizen: { name: 'Sakata Gintoki', img: '' }, undercover: { name: 'Kenshin Himura', img: '' }, tag: 'Esclaves/soldats enfants, légendes de guerre reconverties', difficulty: 'popular' },
     { citizen: { name: 'Sakata Gintoki', img: '' }, undercover: { name: 'Guts', img: '' }, tag: 'Esclaves/soldats enfants, maîtres exécutés, portent le poids du passé', difficulty: 'popular' },
+
+    // ══ NOUVELLES PAIRES ══
+
+    // Popular
     { citizen: { name: 'Sesshomaru', img: '' }, undercover: { name: 'Byakuya Kuchiki', img: '' }, tag: 'Aristocrate froid aux longs cheveux, méprise les faibles, rédemption par attachement à un enfant', difficulty: 'popular' },
     { citizen: { name: 'Giorno Giovanna', img: '' }, undercover: { name: 'Lelouch vi Britannia', img: '' }, tag: 'Fils illégitime d\'un tyran, renverse son père pour libérer son peuple, génie stratège', difficulty: 'popular' },
     { citizen: { name: 'Diavolo', img: '' }, undercover: { name: 'Johan Liebert', img: '' }, tag: 'Identité absolument secrète, terreur totale, ne laissent aucune trace', difficulty: 'popular' },
@@ -1036,75 +1016,16 @@ const PAIRS = [
     { citizen: { name: 'Eren Yeager', img: '' }, undercover: { name: 'Lelouch vi Britannia', img: '' }, tag: 'Sacrifice de soi comme plan final, deviennent le monstre pour libérer leur peuple', difficulty: 'popular' },
     { citizen: { name: 'L Lawliet', img: '' }, undercover: { name: 'Conan Edogawa', img: '' }, tag: 'Génie détective à l\'apparence étrange, duel intellectuel contre un criminel masqué dans l\'ombre', difficulty: 'popular' },
     { citizen: { name: 'Killua Zoldyck', img: '' }, undercover: { name: 'Dabi', img: '' }, tag: 'Famille qui les conditionne comme assassins depuis l\'enfance, brisés par leur propre sang', difficulty: 'popular' },
+    { citizen: { name: 'Rin Okumura', img: '' }, undercover: { name: 'Inuyasha', img: '' }, tag: 'Fils d\'un démon légendaire, mi-humain mi-démon, rejetés par les deux mondes', difficulty: 'popular' },
     { citizen: { name: 'Meruem', img: '' }, undercover: { name: 'Father', img: '' }, tag: 'Êtres "parfaits" nés pour dominer l\'humanité, transformés au contact d\'un humain pur', difficulty: 'popular' },
     { citizen: { name: 'Hisoka Morow', img: '' }, undercover: { name: 'Mahito', img: '' }, tag: 'Psychopathes joueurs qui se délectent de la souffrance, métamorphose physique, jeu avec les victimes', difficulty: 'popular' },
     { citizen: { name: 'Choso', img: '' }, undercover: { name: 'Portgas D. Ace', img: '' }, tag: 'Frères aînés prêts à mourir pour protéger leurs cadets, sacrifice accepté pour la famille choisie', difficulty: 'popular' },
+
+    // Intermediate
+    { citizen: { name: 'Shinji Ikari', img: '' }, undercover: { name: 'Subaru Natsuki', img: '' }, tag: 'Propulsés malgré eux dans un rôle de sauveur, s\'effondrent psychologiquement sous le poids', difficulty: 'intermediate' },
+    { citizen: { name: 'Roswaal', img: '' }, undercover: { name: 'Obito Uchiha', img: '' }, tag: 'Manipulent tout depuis l\'ombre pour retrouver l\'être aimé perdu, mastermind mu par le deuil', difficulty: 'intermediate' },
     { citizen: { name: 'Kisuke Urahara', img: '' }, undercover: { name: 'Lelouch vi Britannia', img: '' }, tag: 'Génies masqués derrière une façade désinvolte, orchestrent tout dans l\'ombre, sacrifice planifié', difficulty: 'intermediate' },
-    { citizen: { name: 'Makoto Shishio', img: '' }, undercover: { name: 'Toguro', img: '' }, tag: 'Anciens soldats d\'élite trahis et laissés pour morts par leur propre camp, ressuscités comme monstres', difficulty: 'intermediate' }
-    // ══ NOUVELLES PAIRES GEMINI ══
-    { citizen: { name: 'Orochimaru', img: '' }, undercover: { name: 'Mayuri Kurotsuchi', img: '' }, tag: 'Scientifiques fous sans éthique, expérimentent sur des humains pour l'immortalité', difficulty: 'popular' },
-    { citizen: { name: 'Shou Tucker', img: '' }, undercover: { name: 'Gendo Ikari', img: '' }, tag: 'Pères qui sacrifient leur propre enfant pour leurs ambitions scientifiques', difficulty: 'intermediate' },
-    { citizen: { name: 'Roronoa Zoro', img: '' }, undercover: { name: 'Killer Bee', img: '' }, tag: 'Guerriers au style unique et improbable, loyauté absolue envers leur capitaine', difficulty: 'popular' },
-    { citizen: { name: 'Tsunade', img: '' }, undercover: { name: 'Biscuit Krueger', img: '' }, tag: 'Femmes puissantes à l'apparence trompeuse, maîtresses cachées sous une façade fragile', difficulty: 'popular' },
-    { citizen: { name: 'Grimmjow Jaegerjaquez', img: '' }, undercover: { name: 'Garou', img: '' }, tag: 'Prédateurs instinctifs, combattent pour la pure gloire, méprisent les faibles', difficulty: 'popular' },
-    { citizen: { name: 'Askeladd', img: '' }, undercover: { name: 'Erwin Smith', img: '' }, tag: 'Stratèges froids qui sacrifient leurs hommes sans hésiter pour leur vision', difficulty: 'popular' },
-    { citizen: { name: 'Lelouch vi Britannia', img: '' }, undercover: { name: 'Ami (20th Century Boys)', img: '' }, tag: 'Masque physique, double identité, manipulation dans l'ombre pour renverser un système', difficulty: 'popular' },
-    { citizen: { name: 'Muzan Kibutsuji', img: '' }, undercover: { name: 'DIO', img: '' }, tag: 'Seigneurs des ténèbres immortels, créent des serviteurs à leur image', difficulty: 'popular' },
-    { citizen: { name: 'Reiner Braun', img: '' }, undercover: { name: 'Annie Leonhart', img: '' }, tag: 'Double identité, espions infiltrés parmi leurs ennemis, dissociation psychologique', difficulty: 'popular' },
-    { citizen: { name: 'Monkey D. Luffy', img: '' }, undercover: { name: 'Gon Freecss', img: '' }, tag: 'Protagonistes purs et naïfs d'une puissance monstrueuse, amitié absolue moteur de tout', difficulty: 'popular' },
-    { citizen: { name: 'Killua Zoldyck', img: '' }, undercover: { name: 'Akame', img: '' }, tag: 'Assassins depuis l'enfance conditionnés par leur famille, brisés mais gardent leur humanité', difficulty: 'popular' },
-    { citizen: { name: 'Esdeath', img: '' }, undercover: { name: 'Boa Hancock', img: '' }, tag: 'Femmes d'une beauté et puissance absolues, tombées amoureuses du protagoniste', difficulty: 'popular' },
-    { citizen: { name: 'Tetsuo Shima', img: '' }, undercover: { name: 'Kaneda', img: '' }, tag: 'Meilleurs amis d'enfance séparés par un pouvoir incontrôlable, Akira', difficulty: 'popular' },
-    { citizen: { name: 'Asta', img: '' }, undercover: { name: 'Rock Lee', img: '' }, tag: 'Aucun pouvoir inné dans un monde de magie/chakra, compensent par un travail acharné', difficulty: 'popular' },
-    { citizen: { name: 'Meruem', img: '' }, undercover: { name: 'Cell', img: '' }, tag: 'Êtres parfaits créés pour dominer, cherchent le défi ultime avant de mourir', difficulty: 'popular' },
-    { citizen: { name: 'Spike Spiegel', img: '' }, undercover: { name: 'Vash the Stampede', img: '' }, tag: 'Tireurs légendaires au passé traumatique, façade désinvolte cachant une profonde mélancolie', difficulty: 'popular' },
-    { citizen: { name: 'Hisoka Morow', img: '' }, undercover: { name: 'Orochimaru', img: '' }, tag: 'Prédateurs obsédés par les proies puissantes, manipulateurs sans morale', difficulty: 'popular' },
-    { citizen: { name: 'Saitama', img: '' }, undercover: { name: 'Mob (Kageyama Shigeo)', img: '' }, tag: 'Puissance absolue vécue comme un fardeau, cherchent un sens à leur existence', difficulty: 'popular' },
-    { citizen: { name: 'Tatsumi', img: '' }, undercover: { name: 'Hyakkimaru', img: '' }, tag: 'Jeunes guerriers venus de nulle part, transformés par la violence du monde adulte', difficulty: 'popular' },
-    { citizen: { name: 'L Lawliet', img: '' }, undercover: { name: 'Norman', img: '' }, tag: 'Génies enfants à l'apparence fragile, portent seuls un poids que nul autre ne peut comprendre', difficulty: 'popular' },
-    { citizen: { name: 'Isabella', img: '' }, undercover: { name: 'Makima', img: '' }, tag: 'Femmes bienveillantes en apparence, systèmes de contrôle absolus dissimulés sous la douceur', difficulty: 'popular' },
-    { citizen: { name: 'Riza Hawkeye', img: '' }, undercover: { name: 'Akame', img: '' }, tag: 'Guerrières loyales à leur chef, tueuses froides au service d'une cause qu'elles croient juste', difficulty: 'popular' },
-    { citizen: { name: 'Shikamaru Nara', img: '' }, undercover: { name: 'Ray', img: '' }, tag: 'Génies stratèges qui calculent tout à l'avance, portent le deuil de leurs proches', difficulty: 'popular' },
-    { citizen: { name: 'Zebra', img: '' }, undercover: { name: 'Kenpachi Zaraki', img: '' }, tag: 'Monstres de combat qui vivent pour la destruction, puissance brute incontrôlable', difficulty: 'popular' },
-    { citizen: { name: 'Greed', img: '' }, undercover: { name: 'Ban', img: '' }, tag: 'Immortels hédonistes qui veulent tout posséder, cachent un coeur loyal sous l'avidité', difficulty: 'popular' },
-    { citizen: { name: 'All Might', img: '' }, undercover: { name: 'Might Guy', img: '' }, tag: 'Symboles de la jeunesse et de l'espoir, sacrifient leur corps pour protéger la prochaine génération', difficulty: 'popular' },
-    { citizen: { name: 'Gaara', img: '' }, undercover: { name: 'Shoto Todoroki', img: '' }, tag: 'Enfants martyrisés par leur propre père, armes vivantes qui trouvent leur humanité', difficulty: 'popular' },
-    { citizen: { name: 'Mugen', img: '' }, undercover: { name: 'Kenshin Himura', img: '' }, tag: 'Légendes de l'épée au style unique, portent le sang du passé dans chaque mouvement', difficulty: 'popular' },
-    { citizen: { name: 'Yoruichi Shihoin', img: '' }, undercover: { name: 'Leone', img: '' }, tag: 'Femmes combattantes félins, puissantes et libres, jouent avec leurs adversaires', difficulty: 'popular' },
-    { citizen: { name: 'Makoto Shishio', img: '' }, undercover: { name: 'Esdeath', img: '' }, tag: 'Anciens soldats d'élite qui ont embrassé le mal, idéologie de la force comme seule loi', difficulty: 'popular' },
-    { citizen: { name: 'Erza Scarlet', img: '' }, undercover: { name: 'Saber', img: '' }, tag: 'Guerrières d'honneur à l'armure iconique, portent le poids d'un passé douloureux avec dignité', difficulty: 'popular' },
-    { citizen: { name: 'Killua Zoldyck', img: '' }, undercover: { name: 'Hiei', img: '' }, tag: 'Assassins solitaires à la vitesse fulgurante, protègent en secret ceux qu'ils aiment', difficulty: 'popular' },
-    { citizen: { name: 'Jiraiya', img: '' }, undercover: { name: 'Master Roshi', img: '' }, tag: 'Vieux maîtres perverts légendaires, fondateurs des techniques de leurs élèves', difficulty: 'popular' },
-    { citizen: { name: 'Tsunade', img: '' }, undercover: { name: 'Genkai', img: '' }, tag: 'Maîtresses légendaires qui transmettent tout à un seul élève avant de disparaître', difficulty: 'popular' },
-    { citizen: { name: 'Chrollo Lucilfer', img: '' }, undercover: { name: 'Sosuke Aizen', img: '' }, tag: 'Chefs charismatiques de sociétés secrètes, volent les pouvoirs des autres, mastermind absolu', difficulty: 'popular' },
-    { citizen: { name: 'Spike Spiegel', img: '' }, undercover: { name: 'Revvy', img: '' }, tag: 'Pistolards traumatisés qui noient leur passé dans l'action, vivent comme si demain n'existait pas', difficulty: 'popular' },
-    { citizen: { name: 'Muzan Kibutsuji', img: '' }, undercover: { name: 'Naraku', img: '' }, tag: 'Seigneurs démons immortels qui corrompent et manipulent depuis l'ombre', difficulty: 'popular' },
-    { citizen: { name: 'Garou', img: '' }, undercover: { name: 'Stain', img: '' }, tag: 'Idéologues violents qui défient le système des héros, admirés malgré leur méthodes', difficulty: 'popular' },
-    { citizen: { name: 'Sanji', img: '' }, undercover: { name: 'Yukihira Soma', img: '' }, tag: 'Cuisiniers de génie au caractère flamboyant, nourriture comme expression de leur âme', difficulty: 'popular' },
-    { citizen: { name: 'Makunouchi Ippo', img: '' }, undercover: { name: 'Rock Lee', img: '' }, tag: 'Aucun talent naturel, compensent par un entraînement inhumain, symboles de la pugnacité', difficulty: 'popular' },
-    { citizen: { name: 'Yoshikage Kira', img: '' }, undercover: { name: 'Johan Liebert', img: '' }, tag: 'Tueurs en série parfaitement intégrés dans la société, identité secrète absolue', difficulty: 'popular' },
-    { citizen: { name: 'Asta', img: '' }, undercover: { name: 'Mash Burnedead', img: '' }, tag: 'Sans magie/pouvoir dans un monde qui en regorge, compensent par la force brute et la ténacité', difficulty: 'popular' },
-    { citizen: { name: 'Madara Uchiha', img: '' }, undercover: { name: 'Shinobu Sensui', img: '' }, tag: 'Anciens protecteurs devenus les plus grands ennemis de leur monde, idéologie de destruction totale', difficulty: 'popular' },
-    { citizen: { name: 'Muzan Kibutsuji', img: '' }, undercover: { name: 'Kars', img: '' }, tag: 'Êtres ayant atteint la perfection biologique, immortels absolus qui méprisent l'humanité', difficulty: 'popular' },
-    { citizen: { name: 'Riza Hawkeye', img: '' }, undercover: { name: 'Mine', img: '' }, tag: 'Tireuses d'élite au service d'un chef, précision mortelle et loyauté sans faille', difficulty: 'popular' },
-    { citizen: { name: 'Netero', img: '' }, undercover: { name: 'Master Roshi', img: '' }, tag: 'Vieux maîtres en apparence décrépits cachant une puissance absolue, gardiens de leur art', difficulty: 'popular' },
-    { citizen: { name: 'Greed', img: '' }, undercover: { name: 'Ling Yao', img: '' }, tag: 'Partagent le même corps, deux personnalités opposées liées par un destin commun', difficulty: 'popular' },
-    { citizen: { name: 'Reiner Braun', img: '' }, undercover: { name: 'Bertholdt Hoover', img: '' }, tag: 'Duo d'espions infiltrés, portent ensemble le poids de leur trahison, AoT', difficulty: 'popular' },
-    { citizen: { name: 'Sosuke Aizen', img: '' }, undercover: { name: 'Griffith', img: '' }, tag: 'Anciens alliés devenus dieux autoproclamés, trahissent tout leur camp pour leur rêve', difficulty: 'popular' },
-    { citizen: { name: 'Makunouchi Ippo', img: '' }, undercover: { name: 'Saitama', img: '' }, tag: 'Pugilistes aux poings dévastateurs, force brute comme seule réponse au monde', difficulty: 'popular' },
-    { citizen: { name: 'Kenshiro', img: '' }, undercover: { name: 'Jonathan Joestar', img: '' }, tag: 'Héros d'honneur au physique imposant, arts martiaux ancestraux, protègent les innocents jusqu'à la mort', difficulty: 'popular' },
-    { citizen: { name: 'Spike Spiegel', img: '' }, undercover: { name: 'Nicolas D. Wolfwood', img: '' }, tag: 'Pistolards nomades au passé trouble, humour noir, savent qu'ils courent vers leur mort', difficulty: 'popular' },
-    { citizen: { name: 'Baki Hanma', img: '' }, undercover: { name: 'Makunouchi Ippo', img: '' }, tag: 'Combattants dévoués corps et âme aux arts martiaux, dépassent leurs limites à chaque combat', difficulty: 'popular' },
-    { citizen: { name: 'DIO', img: '' }, undercover: { name: 'Kars', img: '' }, tag: 'Êtres ayant transcendé l'humanité par la soif de perfection, immortels monstrueux', difficulty: 'popular' },
-    { citizen: { name: 'Roronoa Zoro', img: '' }, undercover: { name: 'Guts', img: '' }, tag: 'Guerriers solitaires à l'épée, cicatrices comme trophées, loyauté absolue malgré leur façade froide', difficulty: 'popular' },
-    { citizen: { name: 'Naruto Uzumaki', img: '' }, undercover: { name: 'Monkey D. Luffy', img: '' }, tag: 'Protagonistes solaires au rêve impossible, entraînent tout le monde dans leur sillage', difficulty: 'popular' },
-    { citizen: { name: 'Edward Elric', img: '' }, undercover: { name: 'Allen Walker', img: '' }, tag: 'Jeunes héros aux bras mécaniques/maudits, portent le poids du monde sur leurs épaules', difficulty: 'popular' },
-    { citizen: { name: 'Jotaro Kujo', img: '' }, undercover: { name: 'Giorno Giovanna', img: '' }, tag: 'Héritiers JoJo au charisme froid, Stand surpuissant, impassibles face au danger', difficulty: 'popular' },
-    { citizen: { name: 'Afro Samurai', img: '' }, undercover: { name: 'Mugen', img: '' }, tag: 'Samouraïs au style imprévisible, combattent pour leur propre code, iconiques', difficulty: 'popular' },
-    { citizen: { name: 'Yoshikage Kira', img: '' }, undercover: { name: 'Ami (20th Century Boys)', img: '' }, tag: 'Identité secrète absolue, terreur silencieuse, personne ne sait qui ils sont vraiment', difficulty: 'popular' },
-    { citizen: { name: 'Alucard', img: '' }, undercover: { name: 'Muzan Kibutsuji', img: '' }, tag: 'Seigneurs vampires/démons d'une puissance absolue, incarnation de la mort', difficulty: 'popular' },
-    { citizen: { name: 'Johan Liebert', img: '' }, undercover: { name: 'Griffith', img: '' }, tag: 'Anges monstrueux à la beauté parfaite, détruisent tout autour d'eux pour accomplir leur vision', difficulty: 'popular' },
-    { citizen: { name: 'Chrollo Lucilfer', img: '' }, undercover: { name: 'Shinobu Sensui', img: '' }, tag: 'Anciens protecteurs devenus chefs du mal, philosophie complexe, deuil de l'humanité', difficulty: 'intermediate' },
+    { citizen: { name: 'Makoto Shishio', img: '' }, undercover: { name: 'Toguro', img: '' }, tag: 'Anciens soldats d\'élite trahis et laissés pour morts par leur propre camp, ressuscités comme monstres', difficulty: 'intermediate' },
 
 ];
 
@@ -1130,7 +1051,6 @@ const gameState = {
     currentRound: 0,       // 1-based
     currentPairIdx: null,  // index into PAIRS
     undercoverName: null,  // name of undercover player
-    undercoverName2: null, // second undercover (null if standard mode)
     mrWhiteName: null,     // name of Mr White player (null if no Mr White)
     mrWhiteGuess: null,    // { guess: str, correct: bool } after round
     // Per-round hints: { playerName: [hint1, hint2] }
@@ -1303,33 +1223,6 @@ async function loadGame(code) {
             gameState.votes[myName] = myLocalVote;
         }
 
-        // Si on attend Mr White et que son guess vient d'arriver, avancer
-        if (gameState.screen === 'game-mrwhite-waiting' && gameState.mrWhiteGuess) {
-            if (gameState.currentRound >= gameState.settings.rounds) {
-                gameState.screen = 'game-final';
-            } else {
-                gameState.screen = 'game-roundresult';
-            }
-        }
-
-        // Si JE suis Mr White et que l'écran est game-mrwhite-waiting, déclencher mon pop-up
-        if (gameState.screen === 'game-mrwhite-waiting'
-            && gameState.mrWhiteName === myName
-            && !gameState.mrWhiteGuess
-            && !document.getElementById('mrwhite-overlay')) {
-            render();
-            const advanceMW = () => {
-                if (gameState.currentRound >= gameState.settings.rounds) {
-                    gameState.screen = 'game-final';
-                } else {
-                    gameState.screen = 'game-roundresult';
-                }
-                saveGame().then(() => render());
-            };
-            showMrWhiteGuessPopup(advanceMW);
-            return;
-        }
-
         render();
 
         // Host: check if all votes are in (in case non-host voted last)
@@ -1405,7 +1298,8 @@ window.createRoom = async function() {
     gameState.isHost = true;
     gameState.screen = 'lobby';
     gameState.players = [{ name: pseudo, score: 0, ready: true, isHost: true }];
-    gameState.settings = { rounds, hintsPerRound: hints, difficulty, customSeries, mrWhite: false, gameMode: 'standard' };
+    const mrWhite = document.getElementById('settings-mrwhite')?.checked || false;
+    gameState.settings = { rounds, hintsPerRound: hints, difficulty, customSeries, mrWhite };
     gameState.scores = { [pseudo]: 0 };
     gameState.usedPairIndices = [];
     gameState.currentRound = 0;
@@ -1501,12 +1395,8 @@ async function beginNewRound() {
     gameState.hints = {};
     gameState.votes = {};
     gameState.currentHintPhase = 1;
-    // Choisir le premier joueur — Mr White ne peut jamais commencer
-    let startIdx = Math.floor(Math.random() * gameState.players.length);
-    // On assigne les rôles plus bas, mais on peut déjà s'assurer que l'idx de départ
-    // ne tombe pas sur Mr White (on le vérifie après l'assignation des rôles)
-    gameState.currentTurnIdx = startIdx;
-    gameState.roundStartIdx = startIdx;
+    gameState.currentTurnIdx = Math.floor(Math.random() * gameState.players.length);
+    gameState.roundStartIdx = gameState.currentTurnIdx;
     gameState.roundId = Date.now();
     gameState.currentPairImgs = { citizen: '', undercover: '' };
 
@@ -1534,30 +1424,9 @@ async function beginNewRound() {
     // Assign roles
     const shuffledPlayers = shuffle(gameState.players.map(p => p.name));
     gameState.undercoverName = shuffledPlayers[0];
-    if (gameState.settings.gameMode === 'twoUC' && gameState.players.length >= 5) {
-        gameState.undercoverName2 = shuffledPlayers[1];
-        gameState.mrWhiteName = null;
-    } else if (gameState.settings.gameMode === 'mrwhite' && gameState.players.length >= 4) {
-        gameState.undercoverName2 = null;
-        gameState.mrWhiteName = shuffledPlayers[1];
-    } else {
-        gameState.undercoverName2 = null;
-        gameState.mrWhiteName = null;
-    }
+    gameState.mrWhiteName = (gameState.settings.mrWhite && gameState.players.length >= 4)
+        ? shuffledPlayers[1] : null;
     gameState.mrWhiteGuess = null;
-
-    // S'assurer que Mr White ne commence jamais en premier (pas d'info pour bluffer)
-    const _noFirstPlayers = [gameState.mrWhiteName].filter(Boolean);
-    if (_noFirstPlayers.length > 0) {
-        let safeIdx = gameState.currentTurnIdx;
-        let attempts = 0;
-        while (_noFirstPlayers.includes(gameState.players[safeIdx]?.name) && attempts < gameState.players.length) {
-            safeIdx = (safeIdx + 1) % gameState.players.length;
-            attempts++;
-        }
-        gameState.currentTurnIdx = safeIdx;
-        gameState.roundStartIdx = safeIdx;
-    }
 
     // Go directly to hints screen — no reveal screen anymore
     gameState.screen = 'game-hints';
@@ -1734,53 +1603,45 @@ function calculateRoundScores() {
     // Ensure all players have a score entry (don't reset existing)
     players.forEach(p => { if (gameState.scores[p.name] === undefined) gameState.scores[p.name] = 0; });
 
-    const mrWhite = gameState.mrWhiteName || null;
-    const undercover2 = gameState.undercoverName2 || null;
-    const isTwoUC = !!undercover2;
-    // Non-UC, non-MrWhite players = real citizens
-    const realCitizens = players.filter(p => p.name !== undercover && p.name !== undercover2 && p.name !== mrWhite);
-
-    // For standard UC: count real citizen votes on undercover
+    // Count votes on undercover (from citizens only)
     let votesOnUndercover = 0;
-    realCitizens.forEach(p => { if (votes[p.name] === undercover) votesOnUndercover++; });
-    const citizensWhoVotedWrong = realCitizens.length - votesOnUndercover;
-    const undercoverPerfect = votesOnUndercover === 0;
+    players.forEach(p => {
+        if (p.name !== undercover && votes[p.name] === undercover) votesOnUndercover++;
+    });
+    const citizenCount = n - 1;
+    const citizensWhoVotedWrong = citizenCount - votesOnUndercover;
+    const undercoverPerfect = votesOnUndercover === 0; // no citizen found UC
 
-    // For UC2 in twoUC mode
-    let votesOnUndercover2 = 0;
-    if (isTwoUC) realCitizens.forEach(p => { if (votes[p.name] === undercover2) votesOnUndercover2++; });
-    const citizensWhoVotedWrongUC2 = realCitizens.length - votesOnUndercover2;
-    const undercover2Perfect = isTwoUC && votesOnUndercover2 === 0;
+    const mrWhite = gameState.mrWhiteName || null;
     players.forEach(p => {
         if (p.name === undercover) {
-            // UC1 : +10 par vrai citoyen qui vote mal, -10 par vrai citoyen qui vote bien
+            // UC : +10 par citoyen qui vote mal, -10 par citoyen qui vote bien
+            // +5 bonus si TOUS les citoyens votent mal
             const gain = (citizensWhoVotedWrong * 10) - (votesOnUndercover * 10);
             const bonus = undercoverPerfect ? 5 : 0;
             gameState.scores[p.name] += gain + bonus;
-        } else if (isTwoUC && p.name === undercover2) {
-            // UC2 : même barème indépendant
-            const gain2 = (citizensWhoVotedWrongUC2 * 10) - (votesOnUndercover2 * 10);
-            const bonus2 = undercover2Perfect ? 5 : 0;
-            gameState.scores[p.name] += gain2 + bonus2;
         } else if (p.name === mrWhite) {
-            // Mr White : vote UC +5, vote Citoyen -10
+            // Mr White : vote UC +5, vote Citoyen -5
+            // +10 si trouve le nom du personnage citoyen (géré après le vote via pop-up)
             const votedCorrectly = votes[p.name] === undercover;
-            gameState.scores[p.name] += votedCorrectly ? 5 : -10;
+            gameState.scores[p.name] += votedCorrectly ? 5 : -5;
+            // Note : le +10 du guess est ajouté dans window.submitMrWhiteGuess
         } else {
-            // Vrai citoyen
-            const votedAnUC = isTwoUC
-                ? (votes[p.name] === undercover || votes[p.name] === undercover2)
-                : votes[p.name] === undercover;
-            const selfScore = votedAnUC ? 5 : -10;
-            const alliesCorrect = realCitizens.filter(x => x.name !== p.name && (isTwoUC
-                ? (votes[x.name] === undercover || votes[x.name] === undercover2)
-                : votes[x.name] === undercover)).length;
-            const alliesWrong = realCitizens.filter(x => x.name !== p.name && !( isTwoUC
-                ? (votes[x.name] === undercover || votes[x.name] === undercover2)
-                : votes[x.name] === undercover)).length;
+            const votedCorrectly = votes[p.name] === undercover;
+            // Propre vote : +5 si Undercover, -10 si Citoyen
+            const selfScore = votedCorrectly ? 5 : -10;
+            // Alliés : +5 par allié qui vote Undercover, -5 par allié qui vote Citoyen
+            // On exclut Mr White des alliés citoyens
+            const alliesCorrect = players.filter(x =>
+                x.name !== undercover && x.name !== mrWhite && x.name !== p.name && votes[x.name] === undercover
+            ).length;
+            const alliesWrong = players.filter(x =>
+                x.name !== undercover && x.name !== mrWhite && x.name !== p.name && votes[x.name] !== undercover
+            ).length;
             const allyScore = (alliesCorrect * 5) - (alliesWrong * 5);
             const rawScore = selfScore + allyScore;
-            const delta = votedAnUC ? Math.max(0, rawScore) : rawScore;
+            // PLAFOND : si le joueur a bien voté, son score de round ne peut pas descendre sous 0
+            const delta = votedCorrectly ? Math.max(0, rawScore) : rawScore;
             gameState.scores[p.name] += delta;
         }
     });
@@ -1805,11 +1666,6 @@ function calculateRoundScores() {
             _calculatingScores = false;
             showMrWhiteGuessPopup(advanceScreen);
         });
-    } else if (mrWhite) {
-        // Je ne suis pas Mr White — attendre que mrWhiteGuess soit soumis
-        // On passe à l'écran d'attente, le polling prendra le relais
-        gameState.screen = 'game-mrwhite-waiting';
-        saveGame().then(() => { _calculatingScores = false; render(); });
     } else {
         advanceScreen();
     }
@@ -1822,24 +1678,19 @@ function showMrWhiteGuessPopup(callback) {
     const pair = PAIRS[gameState.currentPairIdx];
     if (!pair) { callback(); return; }
 
-    const oldOv = document.getElementById('mrwhite-overlay');
-    if (oldOv) oldOv.remove();
+    const old = document.getElementById('mrwhite-overlay');
+    if (old) old.remove();
 
     const ov = document.createElement('div');
     ov.id = 'mrwhite-overlay';
     ov.className = 'uc-overlay';
     ov.innerHTML = `
         <div class="uc-card" style="text-align:center;max-width:380px">
-            <p style="font-size:10px;font-weight:700;color:#c0a0ff;letter-spacing:3px;text-transform:uppercase;margin-bottom:6px">&#9744; Mr White</p>
+            <p style="font-size:10px;font-weight:700;color:#c0a0ff;letter-spacing:3px;text-transform:uppercase;margin-bottom:6px">⬜ Mr White</p>
             <h2 class="font-cinzel" style="font-size:20px;font-weight:900;color:#ffffff;margin-bottom:6px">Devine le personnage !</h2>
-            <p style="font-size:13px;color:var(--text-muted);margin-bottom:10px">Quel &#233;tait le personnage des citoyens ?<br>Tu n&#39;as qu&#39;<strong style="color:#ffffff">une seule chance</strong>.</p>
-            <!-- Timer bar -->
-            <div style="width:100%;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;margin-bottom:14px;overflow:hidden">
-                <div id="mrwhite-timer-bar" style="height:100%;width:100%;background:linear-gradient(90deg,#7c3aed,#c0a0ff);border-radius:2px;transition:width 1s linear"></div>
-            </div>
-            <p style="font-size:22px;font-weight:900;color:#c0a0ff;margin-bottom:12px" id="mrwhite-timer-count">30</p>
+            <p style="font-size:13px;color:var(--text-muted);margin-bottom:18px">Quel était le personnage des citoyens ?<br>Tu n'as qu'<strong style="color:#ffffff">une seule chance</strong>.</p>
             <input id="mrwhite-input" class="uc-input" placeholder="Nom du personnage..." maxlength="40" style="margin-bottom:14px;text-align:center;font-size:15px">
-            <button class="uc-btn uc-btn-primary" onclick="window.submitMrWhiteGuess()" style="margin-bottom:8px">&#10003; Valider ma r&#233;ponse</button>
+            <button class="uc-btn uc-btn-primary" onclick="window.submitMrWhiteGuess()" style="margin-bottom:8px">✓ Valider ma réponse</button>
         </div>`;
     document.body.appendChild(ov);
 
@@ -1850,51 +1701,18 @@ function showMrWhiteGuessPopup(callback) {
     }
 
     window._mrWhiteCallback = callback;
-
-    // Timer 30s
-    let _seconds = 30;
-    const bar = document.getElementById('mrwhite-timer-bar');
-    const count = document.getElementById('mrwhite-timer-count');
-    window._mrWhiteTimer = setInterval(() => {
-        _seconds--;
-        if (count) count.textContent = _seconds;
-        if (bar) bar.style.width = (_seconds / 30 * 100) + '%';
-        if (_seconds <= 0) {
-            clearInterval(window._mrWhiteTimer);
-            window._mrWhiteTimer = null;
-            // Auto-submit as empty (miss)
-            window.submitMrWhiteGuessAuto();
-        }
-    }, 1000);
-    // Trigger bar animation on next frame
-    requestAnimationFrame(() => { if (bar) bar.style.width = '100%'; });
 }
 
-window.submitMrWhiteGuessAuto = async function() {
-    // Called when timer expires — submit empty guess (miss)
-    if (window._mrWhiteTimer) { clearInterval(window._mrWhiteTimer); window._mrWhiteTimer = null; }
-    const pair = PAIRS[gameState.currentPairIdx];
-    gameState.mrWhiteGuess = { guess: '', correct: false, timedOut: true };
-    const ov = document.getElementById('mrwhite-overlay');
-    if (ov) ov.remove();
-    await saveGame();
-    if (window._mrWhiteCallback) { window._mrWhiteCallback(); window._mrWhiteCallback = null; }
-};
-
 window.submitMrWhiteGuess = async function() {
-    if (window._mrWhiteTimer) { clearInterval(window._mrWhiteTimer); window._mrWhiteTimer = null; }
     const pair = PAIRS[gameState.currentPairIdx];
     const inp = document.getElementById('mrwhite-input');
     const guess = (inp?.value || '').trim();
     if (!guess) { inp?.focus(); return; }
 
     const citizenName = pair?.citizen?.name || '';
-    // Normalisation : insensible casse, accents, ponctuation
-    const normalize = s => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9 ]/g, '').replace(/\s+/g, ' ').trim();
-    const ng = normalize(guess);
-    const nc = normalize(citizenName);
-    // Accepter si identique, ou si le guess est contenu dans le nom, ou le nom dans le guess
-    const correct = ng === nc || nc.includes(ng) || ng.includes(nc);
+    // Comparaison insensible à la casse et aux accents
+    const normalize = s => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim();
+    const correct = normalize(guess) === normalize(citizenName);
 
     // Stocker le résultat dans gameState
     gameState.mrWhiteGuess = { guess, correct };
@@ -1930,7 +1748,7 @@ window.goHome = function() {
         screen: 'home', roomCode: null, playerName: null, isHost: false,
         players: [], settings: { rounds: 3, hintsPerRound: 2 },
         currentRound: 0, currentPairIdx: null, undercoverName: null,
-        undercoverName2: null, mrWhiteName: null, mrWhiteGuess: null,
+        mrWhiteName: null, mrWhiteGuess: null,
         hints: {}, currentHintPhase: 1, votes: {}, scores: {}, usedPairIndices: [], _savedAt: null
     });
     render();
@@ -1976,7 +1794,6 @@ function render() {
     else if (gameState.screen === 'lobby') renderLobby(app);
     else if (gameState.screen === 'game-hints') renderHints(app);
     else if (gameState.screen === 'game-vote') renderVote(app);
-    else if (gameState.screen === 'game-mrwhite-waiting') renderMrWhiteWaiting(app);
     else if (gameState.screen === 'game-roundresult') renderRoundResult(app);
     else if (gameState.screen === 'game-final') renderFinal(app);
     else { app.innerHTML = '<div style="padding:40px;text-align:center;color:#ffffff">Écran inconnu : ' + gameState.screen + '</div>'; }
@@ -2056,6 +1873,20 @@ function renderHome(app) {
                         <option value="3">3 indices (intense)</option>
                         <option value="4">4 indices (long)</option>
                     </select>
+
+                    <!-- Mr White toggle -->
+                    <div style="display:flex;align-items:center;justify-content:space-between;background:rgba(192,160,255,0.06);border:1px solid rgba(192,160,255,0.15);border-radius:10px;padding:12px 14px;margin-bottom:14px">
+                        <div>
+                            <p style="font-size:13px;font-weight:700;color:#e8e0ff">⬜ Mode Mr White</p>
+                            <p style="font-size:11px;color:var(--text-muted);margin-top:2px">4 joueurs min. — Bluff total, guess le perso citoyen</p>
+                        </div>
+                        <label style="position:relative;display:inline-block;width:44px;height:24px;flex-shrink:0;margin-left:12px">
+                            <input type="checkbox" id="settings-mrwhite" style="opacity:0;width:0;height:0">
+                            <span onclick="this.previousElementSibling.checked=!this.previousElementSibling.checked;this.style.background=this.previousElementSibling.checked?'#7c3aed':'rgba(120,20,20,0.3)'" style="position:absolute;cursor:pointer;inset:0;background:rgba(120,20,20,0.3);border-radius:24px;transition:0.2s">
+                                <span style="position:absolute;content:'';height:18px;width:18px;left:3px;bottom:3px;background:white;border-radius:50%;transition:0.2s;transform:translateX(0)" id="mrwhite-toggle-knob"></span>
+                            </span>
+                        </label>
+                    </div>
 
                     <label style="display:block;font-size:11px;font-weight:700;color:var(--text-dim);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px">Difficulté</label>
                     <select id="settings-difficulty" class="uc-select" style="margin-bottom:8px" onchange="window._onDifficultyChange(this.value)">
@@ -2186,41 +2017,18 @@ function renderLobby(app) {
                     ${gameState.players.length < 8 ? `<div class="player-chip" style="opacity:0.3;border-style:dashed"><div style="width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.2)"></div><p style="font-size:13px;color:var(--text-muted)">En attente de joueurs... (${gameState.players.length}/8)</p></div>` : ''}
                 </div>
 
-                <!-- Mode de jeu (hôte seulement) -->
-                ${gameState.isHost ? `
-                <div style="margin-bottom:12px">
-                    <p style="font-size:10px;font-weight:700;color:var(--text-muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px">Mode de jeu</p>
-                    <div style="display:flex;flex-direction:column;gap:6px" id="gamemode-selector">
-                        <button onclick="window.setGameMode('standard')" id="mode-standard" class="uc-btn" style="text-align:left;padding:10px 14px;background:rgba(120,20,20,0.35);border:1px solid var(--amber);color:#ffffff;font-size:13px">
-                            ⚔️ Standard <span style="font-size:11px;color:var(--text-muted);font-weight:400;margin-left:6px">1 Undercover</span>
-                        </button>
-                        <button onclick="window.setGameMode('mrwhite')" id="mode-mrwhite" class="uc-btn" style="text-align:left;padding:10px 14px;background:rgba(20,8,8,0.6);border:1px solid var(--warm-border);color:var(--text-dim);font-size:13px" ${gameState.players.length < 4 ? 'disabled title="4 joueurs min"' : ''}>
-                            &#9744; Mr White <span style="font-size:11px;color:var(--text-muted);font-weight:400;margin-left:6px">4 joueurs min</span>
-                        </button>
-                        <button onclick="window.setGameMode('twoUC')" id="mode-twoUC" class="uc-btn" style="text-align:left;padding:10px 14px;background:rgba(20,8,8,0.6);border:1px solid var(--warm-border);color:var(--text-dim);font-size:13px" ${gameState.players.length < 5 ? 'disabled title="5 joueurs min"' : ''}>
-                            🥷🥷 2 Undercovers <span style="font-size:11px;color:var(--text-muted);font-weight:400;margin-left:6px">5 joueurs min</span>
-                        </button>
-                    </div>
-                </div>` : `
-                <div style="margin-bottom:12px;text-align:center">
-                    <p style="font-size:11px;color:var(--text-muted)">Mode : <strong style="color:#ffffff">${
-                        gameState.settings?.gameMode === 'mrwhite' ? '&#9744; Mr White' :
-                        gameState.settings?.gameMode === 'twoUC' ? '&#129399;&#129399; 2 Undercovers' : '&#9876;&#65039; Standard'
-                    }</strong></p>
-                </div>`}
-
                 <!-- Action buttons -->
                 <div style="display:flex;flex-direction:column;gap:8px">
                     ${gameState.isHost
                         ? `<button class="uc-btn uc-btn-primary" onclick="window.startGame()" ${gameState.players.length < 2 ? 'disabled style="opacity:0.4;cursor:not-allowed"' : ''}>
-                            ${gameState.players.length >= 2 ? '&#9654; Lancer la partie' : 'En attente de joueurs... (2 min)'}
+                            ${gameState.players.length >= 2 ? '▶ Lancer la partie' : 'En attente de joueurs... (2 min)'}
                            </button>`
                         : `<div style="display:flex;flex-direction:column;align-items:center;gap:10px;margin-top:8px">
                             <div class="loading-dots" style="display:flex;gap:6px"><span></span><span></span><span></span></div>
                             <p style="color:var(--text-muted);font-size:13px">En attente que l'hôte lance la partie...</p>
                            </div>`
                     }
-                    <button class="uc-btn uc-btn-ghost" onclick="window.goHome()">&#8592; Quitter</button>
+                    <button class="uc-btn uc-btn-ghost" onclick="window.goHome()">← Quitter</button>
                 </div>
             </div>
         </div>
@@ -2229,33 +2037,6 @@ function renderLobby(app) {
     window.showCopyFeedback = () => {
         const el = document.querySelector('#copy-feedback p');
         if (el) { el.style.display = 'block'; setTimeout(() => { el.style.display = 'none'; }, 1500); }
-    };
-
-    // Highlight le mode actif au render
-    const currentMode = gameState.settings?.gameMode || 'standard';
-    ['standard','mrwhite','twoUC'].forEach(m => {
-        const btn = document.getElementById('mode-' + m);
-        if (!btn) return;
-        if (m === currentMode) {
-            btn.style.background = 'rgba(120,20,20,0.35)';
-            btn.style.borderColor = 'var(--amber)';
-            btn.style.color = '#ffffff';
-        } else {
-            btn.style.background = 'rgba(20,8,8,0.6)';
-            btn.style.borderColor = 'var(--warm-border)';
-            btn.style.color = 'var(--text-dim)';
-        }
-    });
-
-    window.setGameMode = async function(mode) {
-        const n = gameState.players.length;
-        if (mode === 'mrwhite' && n < 4) return ucAlert('Il faut au moins 4 joueurs pour le mode Mr White !');
-        if (mode === 'twoUC' && n < 5) return ucAlert('Il faut au moins 5 joueurs pour le mode 2 Undercovers !');
-        gameState.settings.gameMode = mode;
-        // Sync legacy flags
-        gameState.settings.mrWhite = (mode === 'mrwhite');
-        await saveGame();
-        render();
     };
 }
 
@@ -2319,12 +2100,8 @@ function renderRevealGate(app) {
 window.launchHints = async function() {
     if (!gameState.isHost) return;
     gameState.screen = 'game-hints';
-    // Choisir le premier joueur — Mr White ne peut jamais commencer
-    let startIdx = Math.floor(Math.random() * gameState.players.length);
-    // On assigne les rôles plus bas, mais on peut déjà s'assurer que l'idx de départ
-    // ne tombe pas sur Mr White (on le vérifie après l'assignation des rôles)
-    gameState.currentTurnIdx = startIdx;
-    gameState.roundStartIdx = startIdx;
+    gameState.currentTurnIdx = Math.floor(Math.random() * gameState.players.length);
+    gameState.roundStartIdx = gameState.currentTurnIdx;
     await saveGame();
     render();
 };
@@ -2337,7 +2114,7 @@ function renderHints(app) {
     const me = gameState.playerName;
     const pair = PAIRS[gameState.currentPairIdx];
     if (!pair) return;
-    const isUndercover = me === gameState.undercoverName || me === gameState.undercoverName2;
+    const isUndercover = me === gameState.undercoverName;
     const isMrWhite = me === gameState.mrWhiteName;
     const imgs = gameState.currentPairImgs || {};
     const myChar = isUndercover
@@ -2391,7 +2168,7 @@ function renderHints(app) {
                     <div style="flex:1;min-width:0">
                         <p style="font-size:9px;color:var(--text-muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:3px">Ton personnage</p>
                         <p style="font-size:16px;font-weight:900;color:${isMrWhite ? '#c0a0ff' : '#ffffff'};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${myChar.name}</p>
-                        ${isMrWhite ? '<p style="font-size:10px;color:#c0a0ff;margin-top:2px;font-weight:700">&#9744; Bluff &#8212; tu n&#39;as aucun personnage</p>' : '<p style="font-size:10px;color:var(--text-muted);margin-top:2px">Ne montre pas ton &#233;cran</p>'}
+                        ${isMrWhite ? '<p style="font-size:10px;color:#c0a0ff;margin-top:2px;font-weight:700">⬜ Bluff — tu n'as aucun personnage</p>' : '<p style="font-size:10px;color:var(--text-muted);margin-top:2px">Ne montre pas ton écran</p>'}
                     </div>
                     <!-- Scores -->
                     <div style="display:flex;gap:10px;flex-shrink:0">
@@ -2579,25 +2356,6 @@ function renderVote(app) {
 // ──────────────────────────────────────
 //  GAME-ROUNDRESULT
 // ──────────────────────────────────────
-// ──────────────────────────────────────
-//  MR WHITE WAITING — écran d'attente
-// ──────────────────────────────────────
-function renderMrWhiteWaiting(app) {
-    const mwName = gameState.mrWhiteName;
-    app.innerHTML = `
-        <div style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;background:transparent;position:relative">
-            <div style="position:fixed;inset:0;background:rgba(6,3,3,0.88);pointer-events:none;z-index:0"></div>
-            <div style="position:relative;z-index:1;text-align:center;max-width:320px">
-                <p style="font-size:48px;margin-bottom:16px">&#9744;</p>
-                <p class="font-cinzel" style="font-size:11px;letter-spacing:4px;color:#c0a0ff;text-transform:uppercase;margin-bottom:8px">Mr White</p>
-                <h2 class="font-cinzel" style="font-size:24px;font-weight:900;color:#ffffff;margin-bottom:12px">${mwName} devine...</h2>
-                <p style="font-size:13px;color:var(--text-muted);margin-bottom:28px">Attendez en silence &#8212; ne donnez aucun indice !</p>
-                <div class="loading-dots" style="display:flex;gap:6px;justify-content:center"><span></span><span></span><span></span></div>
-            </div>
-        </div>
-    `;
-}
-
 function renderRoundResult(app) {
     const pair = PAIRS[gameState.currentPairIdx];
     const undercover = gameState.undercoverName;
@@ -2606,66 +2364,37 @@ function renderRoundResult(app) {
     const citizenImg = imgs.citizen || pair.citizen.img || '';
     const undercoverImg = imgs.undercover || pair.undercover.img || '';
 
-    // Recompute deltas for display — mirrors calculateRoundScores exactly
-    const mrWhiteDisplay = gameState.mrWhiteName || null;
-    const undercover2Display = gameState.undercoverName2 || null;
-    const isTwoUCDisplay = !!undercover2Display;
-    const realCitizensD = gameState.players.filter(p =>
-        p.name !== undercover && p.name !== undercover2Display && p.name !== mrWhiteDisplay);
-
-    let votesOnUC1 = 0, votesOnUC2 = 0;
-    realCitizensD.forEach(p => {
-        if (votes[p.name] === undercover) votesOnUC1++;
-        if (isTwoUCDisplay && votes[p.name] === undercover2Display) votesOnUC2++;
+    // Recompute deltas for display
+    const n = gameState.players.length;
+    let votesOnUndercover = 0;
+    gameState.players.forEach(p => {
+        if (p.name !== undercover && votes[p.name] === undercover) votesOnUndercover++;
     });
+    const citizenCount = n - 1;
+    const citizensWhoVotedWrong = citizenCount - votesOnUndercover;
+    const undercoverPerfect = votesOnUndercover === 0;
 
     const deltas = {};
     gameState.players.forEach(p => {
         if (p.name === undercover) {
-            const wrong = realCitizensD.length - votesOnUC1;
-            deltas[p.name] = (wrong * 10) - (votesOnUC1 * 10) + (votesOnUC1 === 0 ? 5 : 0);
-        } else if (isTwoUCDisplay && p.name === undercover2Display) {
-            const wrong2 = realCitizensD.length - votesOnUC2;
-            deltas[p.name] = (wrong2 * 10) - (votesOnUC2 * 10) + (votesOnUC2 === 0 ? 5 : 0);
-        } else if (p.name === mrWhiteDisplay) {
-            const votedCorrectly = votes[p.name] === undercover;
-            deltas[p.name] = (votedCorrectly ? 5 : -10) + (gameState.mrWhiteGuess?.correct ? 10 : 0);
+            const gain = citizensWhoVotedWrong * 10;
+            const bonus = undercoverPerfect ? 5 : 0;
+            deltas[p.name] = gain + bonus;
         } else {
-            const votedAnUC = isTwoUCDisplay
-                ? (votes[p.name] === undercover || votes[p.name] === undercover2Display)
-                : votes[p.name] === undercover;
-            const selfScore = votedAnUC ? 5 : -10;
-            const alliesCorrect = realCitizensD.filter(x => x.name !== p.name && (isTwoUCDisplay
-                ? (votes[x.name] === undercover || votes[x.name] === undercover2Display)
-                : votes[x.name] === undercover)).length;
-            const alliesWrong = realCitizensD.filter(x => x.name !== p.name && !(isTwoUCDisplay
-                ? (votes[x.name] === undercover || votes[x.name] === undercover2Display)
-                : votes[x.name] === undercover)).length;
-            const raw = selfScore + (alliesCorrect * 5) - (alliesWrong * 5);
-            deltas[p.name] = votedAnUC ? Math.max(0, raw) : raw;
+            const votedCorrectly = votes[p.name] === undercover;
+            const selfScore = votedCorrectly ? 5 : -5;
+            const alliesCorrect = gameState.players.filter(x =>
+                x.name !== undercover && x.name !== p.name && votes[x.name] === undercover
+            ).length;
+            const alliesWrong = gameState.players.filter(x =>
+                x.name !== undercover && x.name !== p.name && votes[x.name] !== undercover
+            ).length;
+            const allyScore = (alliesCorrect * 10) - (alliesWrong * 10);
+            deltas[p.name] = selfScore + allyScore;
         }
     });
 
     const sorted = [...gameState.players].sort((a, b) => (gameState.scores?.[b.name] ?? 0) - (gameState.scores?.[a.name] ?? 0));
-
-    // Pre-compute Mr White result block (no IIFE in template literal)
-    let mrWhiteResultBlock = '';
-    if (gameState.mrWhiteName) {
-        const mwg = gameState.mrWhiteGuess;
-        const mwName = gameState.mrWhiteName;
-        let mwContent = '';
-        if (mwg) {
-            const mwColor = mwg.correct ? '#4ade80' : '#d47070';
-            const mwResult = mwg.correct ? '\u2713 Correct ! +10 pts' : (mwg.timedOut ? '\u23f0 Temps \u00e9coul\u00e9 ! Le bon \u00e9tait : ' + pair.citizen.name : '\u2717 Rat\u00e9 \u2014 le bon \u00e9tait : ' + pair.citizen.name);
-            mwContent = '<p style="font-size:13px;color:var(--text-dim)">A devin\u00e9 : <strong style="color:#ffffff">' + mwg.guess + '</strong></p>'
-                      + '<p style="font-size:14px;font-weight:800;margin-top:4px;color:' + mwColor + '">' + mwResult + '</p>';
-        } else {
-            mwContent = '<p style="font-size:12px;color:var(--text-muted)">En attente du guess...</p>';
-        }
-        mrWhiteResultBlock = '<div style="background:rgba(192,160,255,0.08);border:1px solid rgba(192,160,255,0.25);border-radius:10px;padding:10px 14px;text-align:center;margin-bottom:14px">'
-                           + '<p style="font-size:10px;font-weight:700;color:#c0a0ff;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px">&#9744; Mr White — ' + mwName + '</p>'
-                           + mwContent + '</div>';
-    }
 
     app.innerHTML = `
         <div style="min-height:100vh;display:flex;flex-direction:column;padding:16px 16px 100px;background:transparent;position:relative;overflow-y:auto">
@@ -2708,20 +2437,25 @@ function renderRoundResult(app) {
                 </div>
 
                 <!-- Who was undercover -->
-                <div style="background:rgba(185,28,28,0.10);border:1px solid rgba(185,28,28,0.32);border-radius:10px;padding:10px 14px;text-align:center;margin-bottom:8px">
-                    <p style="font-size:10px;font-weight:700;color:#c08080;letter-spacing:1px;text-transform:uppercase;margin-bottom:2px">${gameState.undercoverName2 ? 'Undercover #1' : 'L&#39;Undercover &#233;tait'}</p>
-                    <p style="font-size:18px;font-weight:900;color:#ffffff">${undercover}</p>
-                    <p style="font-size:11px;color:var(--text-muted);margin-top:1px">jouait le r&#244;le de <em>${pair.undercover.name}</em></p>
-                </div>
-                ${gameState.undercoverName2 ? `
                 <div style="background:rgba(185,28,28,0.10);border:1px solid rgba(185,28,28,0.32);border-radius:10px;padding:10px 14px;text-align:center;margin-bottom:14px">
-                    <p style="font-size:10px;font-weight:700;color:#c08080;letter-spacing:1px;text-transform:uppercase;margin-bottom:2px">Undercover #2</p>
-                    <p style="font-size:18px;font-weight:900;color:#ffffff">${gameState.undercoverName2}</p>
-                    <p style="font-size:11px;color:var(--text-muted);margin-top:1px">jouait aussi le r&#244;le de <em>${pair.undercover.name}</em></p>
-                </div>` : ''}
+                    <p style="font-size:10px;font-weight:700;color:#c08080;letter-spacing:1px;text-transform:uppercase;margin-bottom:2px">L'Undercover était</p>
+                    <p style="font-size:18px;font-weight:900;color:#ffffff">${undercover}</p>
+                    <p style="font-size:11px;color:var(--text-muted);margin-top:1px">jouait le rôle de <em>${pair.undercover.name}</em></p>
+                </div>
 
                 <!-- Mr White guess result -->
-                ${mrWhiteResultBlock}
+                ${gameState.mrWhiteName ? (() => {
+                    const mwg = gameState.mrWhiteGuess;
+                    const mwName = gameState.mrWhiteName;
+                    return `<div style="background:rgba(192,160,255,0.08);border:1px solid rgba(192,160,255,0.25);border-radius:10px;padding:10px 14px;text-align:center;margin-bottom:14px">
+                        <p style="font-size:10px;font-weight:700;color:#c0a0ff;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px">⬜ Mr White — ${mwName}</p>
+                        ${mwg
+                            ? `<p style="font-size:13px;color:var(--text-dim)">A deviné : <strong style="color:#ffffff">${mwg.guess}</strong></p>
+                               <p style="font-size:14px;font-weight:800;margin-top:4px;color:${mwg.correct ? '#4ade80' : '#d47070'}">${mwg.correct ? '✓ Correct ! +10 pts' : '✗ Raté — le bon était : ' + pair.citizen.name}</p>`
+                            : `<p style="font-size:12px;color:var(--text-muted)">En attente du guess...</p>`
+                        }
+                    </div>`;
+                })() : ''}
 
                 <!-- Votes + score deltas -->
                 <div style="margin-bottom:16px">
@@ -2733,13 +2467,10 @@ function renderRoundResult(app) {
                         const deltaColor = delta > 0 ? '#4ade80' : delta < 0 ? '#d47070' : 'var(--text-muted)';
                         const deltaStr = delta > 0 ? '+' + delta : String(delta);
                         const isMW = p.name === gameState.mrWhiteName;
-                        const isUC2 = p.name === gameState.undercoverName2;
-                        const isAnyUC = isUC || isUC2;
-                        return `<div style="display:flex;justify-content:space-between;align-items:center;padding:9px 12px;background:rgba(20,8,8,0.7);border-radius:8px;margin-bottom:5px;border:1px solid ${isAnyUC ? 'rgba(120,20,20,0.4)' : isMW ? 'rgba(192,160,255,0.2)' : (votedRight ? 'rgba(74,222,128,0.18)' : 'rgba(248,113,113,0.18)')}">
+                        return `<div style="display:flex;justify-content:space-between;align-items:center;padding:9px 12px;background:rgba(20,8,8,0.7);border-radius:8px;margin-bottom:5px;border:1px solid ${isUC ? 'rgba(120,20,20,0.4)' : isMW ? 'rgba(192,160,255,0.2)' : (votedRight ? 'rgba(74,222,128,0.18)' : 'rgba(248,113,113,0.18)')}">
                             <div style="flex:1">
                                 <span style="font-weight:700;font-size:13px;color:#f5f0eb">${p.name}</span>
                                 ${isUC ? '<span style="font-size:9px;color:#c08080;margin-left:6px;letter-spacing:1px;font-weight:700">UNDERCOVER</span>' : ''}
-                                ${isUC2 ? '<span style="font-size:9px;color:#c08080;margin-left:6px;letter-spacing:1px;font-weight:700">UNDERCOVER #2</span>' : ''}
                                 ${isMW ? '<span style="font-size:9px;color:#c0a0ff;margin-left:6px;letter-spacing:1px;font-weight:700">MR WHITE</span>' : ''}
                             </div>
                             <div style="text-align:right">
